@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Buddha Bytes">
+<defs>
+<linearGradient id="bbTeal" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#14B8A6"/>
+<stop offset="1" stop-color="#0F766E"/>
+</linearGradient>
+<linearGradient id="bbSun" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#FFB48A"/>
+<stop offset="1" stop-color="#FF8A5B"/>
+</linearGradient>
+</defs>
+<circle cx="32" cy="32" r="30" fill="url(#bbTeal)"/>
+<path d="M32 46a14 14 0 0 1 0-28 10 10 0 1 0 0 28z" fill="url(#bbSun)"/>
+</svg>
