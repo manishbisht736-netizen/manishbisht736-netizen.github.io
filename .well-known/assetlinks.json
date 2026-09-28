@@ -1,0 +1,11 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.buddhabytes.rise",
+    "sha256_cert_fingerprints": [
+      "ED:6A:7B:DE:D3:B1:ED:0E:D8:B3:53:4E:87:32:B9:3B:FF:1D:F0:87:5E:2F:91:DF:FA:4A:E6:C9:40:48:34:14",
+      "FF:07:C6:F9:95:13:99:BD:76:76:03:66:FE:2C:25:43:38:7E:F0:9A:51:8B:5D:88:54:A8:59:DA:8A:01:92:FF"
+    ]
+  }
+}]
