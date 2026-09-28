@@ -7,6 +7,11 @@ main{max-width:420px;padding:32px 22px;text-align:center}.logo{width:120px;heigh
 h1{font-size:2rem;margin:0 0 8px}p{color:#C9CDD4;line-height:1.5;margin:0 0 18px}.code{display:inline-block;margin:6px 0 22px;padding:10px 18px;border-radius:14px;border:1px solid rgba(0,203,169,.5);background:rgba(0,203,169,.08);font-weight:800;letter-spacing:.08em;color:#5FE3C6}
 a.btn{display:block;padding:16px;border-radius:16px;background:linear-gradient(180deg,#1FE0BE,#00B394);color:#06120C;font-weight:800;text-decoration:none;font-size:1.05rem}
 ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:8px;text-align:start;color:#C9CDD4}li::before{content:"✓ ";color:#00CBA9;font-weight:800}.small{font-size:.85rem;color:#9AA0AA;margin-top:18px}.small a{color:#5FE3C6}
+.wk{display:none;text-align:start;margin:4px 0 20px}.wk.on{display:block}.wkhead{display:flex;gap:12px;align-items:center;margin-bottom:12px}.wkav{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(0,203,169,.14);font-size:1.4rem}
+.stats{display:flex;gap:10px;margin:10px 0 16px}.stats div{flex:1;padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);text-align:center}.stats b{display:block;font-size:1.3rem}.stats span{color:#9AA0AA;font-size:.8rem}
+.ex{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;padding:10px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);margin-bottom:10px}
+.anim{position:relative;width:96px;height:96px;border-radius:12px;background:#F1F5F4;overflow:hidden}.anim svg{position:absolute;inset:0;width:100%;height:100%}.anim svg:nth-child(2){animation:swap 2.4s ease-in-out infinite}@keyframes swap{0%,40%{opacity:0}50%,90%{opacity:1}100%{opacity:0}}
+.ex b{display:block}.ex span{color:#5FE3C6;font-size:.9rem}
 </style></head><body><main>
 <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024"><defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#181B21"/><stop offset="1" stop-color="#0B0C0F"/></linearGradient>
 <radialGradient id="glow" cx=".5" cy=".64" r=".5"><stop offset="0" stop-color="#FF9A4A" stop-opacity=".24"/><stop offset="1" stop-color="#FF9A4A" stop-opacity="0"/></radialGradient>
@@ -16,6 +21,7 @@ ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:8px;text-align:sta
 <g fill="none" stroke="#FFB547" stroke-width="26" stroke-linecap="round"><path d="M512 300v-70"/><path d="M300 380l-48-48"/><path d="M724 380l48-48"/><path d="M206 540h-68"/><path d="M818 540h68"/></g>
 <path d="M380 780V420h170a110 110 0 0 1 0 220h-60l150 140" fill="none" stroke="url(#r)" stroke-width="92" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 <h1 id="t">Train with me on Rise</h1>
+<div class="wk" id="wk"></div>
 <p id="s">Rise is a free fitness, food and yoga app built for the Gulf and India.</p>
 <div id="codebox" hidden>Invite code<br><span class="code" id="code"></span></div>
 <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.buddhabytes.rise">Get Rise on Google Play</a>
@@ -23,6 +29,21 @@ ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:8px;text-align:sta
 <p class="small">Android only for now. If the store page doesn’t open yet, Rise is still in testing, please check back soon.<br><a href="/privacy.html">Privacy</a> · <a href="mailto:support@buddhabytes.app">support@buddhabytes.app</a></p>
 </main><script>
 (function(){var m=location.pathname.match(/^\/r\/([A-Za-z0-9]{4,16})\/?$/),c=m?m[1].toUpperCase():(new URLSearchParams(location.search).get('c')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
- if(!m&&!c&&!/^\/r\/?$/.test(location.pathname)){document.getElementById('t').textContent='Page not found';document.getElementById('s').innerHTML='This page doesn’t exist. Here’s Rise instead.'}
+ if(!m&&!c&&!/^\/(r|w)(\/|$)/.test(location.pathname)){document.getElementById('t').textContent='Page not found';document.getElementById('s').innerHTML='This page doesn’t exist. Here’s Rise instead.'}
  if(c){document.getElementById('codebox').hidden=false;document.getElementById('code').textContent=c;var ref=encodeURIComponent('utm_source=rise_invite&utm_medium=referral&utm_campaign='+c);document.getElementById('play').href='https://play.google.com/store/apps/details?id=com.buddhabytes.rise&referrer='+ref;try{localStorage.setItem('rise_ref',c)}catch(e){}}})();
+
+(function(){var m=location.pathname.match(/^\/w\/([A-Za-z0-9]{6,16})\/?$/);if(!m)return;var K="sb_publishable_jJ7ZgxrXhTQwfZ0VETB63A_8rhs3I5Q",U="https://zzfgrkulgagwdoownfue.supabase.co";
+ document.getElementById('s').textContent='Loading the workout…';
+ fetch(U+'/rest/v1/rise_shares?id=eq.'+m[1]+'&select=payload',{headers:{apikey:K,authorization:'Bearer '+K}}).then(function(r){return r.json()}).then(function(rows){var p=rows&&rows[0]&&rows[0].payload;if(!p)throw 0;
+  var e=function(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+  document.title=(p.by&&p.by.name?p.by.name+'’s ':'')+(p.title||'workout')+' on Rise';
+  document.getElementById('t').textContent='Do '+(p.by&&p.by.name?p.by.name+'’s':'this')+' workout';
+  document.getElementById('s').textContent='Rise is a free fitness, food and yoga app built for the Gulf and India.';
+  var h='<div class="wkhead"><div class="wkav">'+e(p.by&&p.by.av||'🙂')+'</div><div><b>'+e(p.title||'Workout')+'</b><br><span style="color:#9AA0AA">shared by '+e(p.by&&p.by.name||'a Rise member')+'</span></div></div>';
+  h+='<div class="stats"><div><b>'+e(p.min||0)+'</b><span>minutes</span></div><div><b>'+e((p.ex||[]).length)+'</b><span>exercises</span></div>'+(p.vol?'<div><b>'+e(Number(p.vol).toLocaleString())+'</b><span>kg lifted</span></div>':(p.kcal?'<div><b>'+e(p.kcal)+'</b><span>kcal (est.)</span></div>':''))+'</div>';
+  (p.ex||[]).forEach(function(x){var f=(x.f||[]).filter(function(v){return /^<svg[\s\S]*<\/svg>$/.test(v)&&!/<script|on\w+=/i.test(v)});h+='<div class="ex"><div class="anim">'+(f[0]||'')+(f[1]||'')+'</div><div><b>'+e(x.n)+'</b><span>'+[x.s?x.s+' sets':'',x.r?x.r+' reps':'',x.kg?x.kg+' kg':''].filter(Boolean).join(' · ')+'</span></div></div>'});
+  var w=document.getElementById('wk');w.innerHTML=h;w.classList.add('on');
+  var code=(new URLSearchParams(location.search).get('r')||p.code||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  var pl=document.getElementById('play');pl.textContent='Do this workout free on Rise';if(code){document.getElementById('codebox').hidden=false;document.getElementById('code').textContent=code;pl.href='https://play.google.com/store/apps/details?id=com.buddhabytes.rise&referrer='+encodeURIComponent('utm_source=rise_share&utm_medium=workout&utm_campaign='+code+'&utm_content='+m[1])}
+ }).catch(function(){document.getElementById('t').textContent='Train with me on Rise';document.getElementById('s').textContent='This workout link has expired or was removed. Here’s Rise instead.'})})();
 </script></body></html>
