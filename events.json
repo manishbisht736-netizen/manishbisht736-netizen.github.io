@@ -1,0 +1,15 @@
+{
+  "updated": "2026-10-03",
+  "note": "Rise race calendar. Served from https://buddhabytes.app/events.json; the app refreshes it once a day. status: confirmed = date published by the organiser or major news; expected = date listed by race calendars, not yet confirmed by the organiser.",
+  "events": [
+    {"id": "delhi-half-2026", "n": "Vedanta Delhi Half Marathon", "city": "New Delhi", "cc": "IN", "date": "2026-10-18", "dist": "21.1 km", "sport": "run", "status": "confirmed", "url": "https://vedantadelhihalfmarathon.procam.in/"},
+    {"id": "dfc-2026", "n": "Dubai Fitness Challenge", "city": "Dubai", "cc": "AE", "date": "2026-10-31", "end": "2026-11-29", "dist": "30 days × 30 minutes", "sport": "challenge", "status": "confirmed", "url": "https://www.dubaifitnesschallenge.com/"},
+    {"id": "dubai-ride-2026", "n": "Dubai Ride", "city": "Dubai", "cc": "AE", "date": "2026-11-01", "dist": "4 km · 12 km on Sheikh Zayed Road", "sport": "ride", "status": "confirmed", "url": "https://www.dubaifitnesschallenge.com/en/dubai-ride"},
+    {"id": "dubai-run-2026", "n": "Dubai Run", "city": "Dubai", "cc": "AE", "date": "2026-11-22", "dist": "5 km · 10 km on Sheikh Zayed Road", "sport": "run", "status": "confirmed", "url": "https://www.dubaifitnesschallenge.com/en/dubai-run"},
+    {"id": "abu-dhabi-marathon-2026", "n": "ADNOC Abu Dhabi Marathon", "city": "Abu Dhabi", "cc": "AE", "date": "2026-12-12", "dist": "42.2 km · 10 km · 5 km", "sport": "run", "status": "confirmed", "url": "https://www.adnocabudhabimarathon.com/"},
+    {"id": "dubai-marathon-2027", "n": "Dubai Marathon", "city": "Dubai", "cc": "AE", "date": "2027-01-17", "dist": "42.2 km · 10 km · 4 km", "sport": "run", "status": "confirmed", "url": "https://www.ahotu.com/event/dubai-marathon"},
+    {"id": "mumbai-marathon-2027", "n": "Tata Mumbai Marathon", "city": "Mumbai", "cc": "IN", "date": "2027-01-17", "dist": "42.2 km · 21.1 km · Dream Run", "sport": "run", "status": "confirmed", "url": "https://www.ahotu.com/event/tata-mumbai-marathon"},
+    {"id": "rak-half-2027", "n": "Ras Al Khaimah Half Marathon", "city": "Ras Al Khaimah", "cc": "AE", "date": "2027-02-13", "dist": "21.1 km", "sport": "run", "status": "expected", "url": "https://rakhalfmarathon.com/"},
+    {"id": "world10k-2027", "n": "World 10K Bengaluru", "city": "Bengaluru", "cc": "IN", "date": "2027-04-25", "dist": "10 km", "sport": "run", "status": "expected", "url": "https://tcsworld10k.procam.in/"}
+  ]
+}
