@@ -21,7 +21,8 @@ Answer ONLY with a JSON array inside a ```json code block. Each item:
 {{"n": event name, "city": city, "cc": two-letter country code, "date": "YYYY-MM-DD" (race day; first day if several),
  "end": "YYYY-MM-DD" or null, "dist": distances like "42.2 km · 21.1 km · 10 km", "sport": "run"|"ride"|"walk"|"challenge",
  "status": "confirmed" if the organiser or major news published the date, else "expected",
- "url": official registration or event page (https), "source": the page where you found the date (https)}}"""
+ "url": official registration or event page (https), "source": the page where you found the date (https),
+ "lat": start-area latitude (number), "lng": start-area longitude (number)}}"""
 
 
 def ask():
@@ -63,9 +64,11 @@ def main():
         if valid(dict(e, cc=e.get("cc", "XX"))):
             by[e["id"]] = e
     for e in found:
-        e = {k: e.get(k) for k in ("n", "city", "cc", "date", "end", "dist", "sport", "status", "url")}
+        e = {k: e.get(k) for k in ("n", "city", "cc", "date", "end", "dist", "sport", "status", "url", "lat", "lng")}
+        for k in ("lat", "lng"):
+            if not isinstance(e.get(k), (int, float)): e.pop(k, None)
         if not e.get("end"):
-            e.pop("end")
+            e.pop("end", None)
         e["status"] = e["status"] if e.get("status") in ("confirmed", "expected") else "expected"
         e["id"] = slug(e)
         # same event, new date: replace the old entry with the same name and year
