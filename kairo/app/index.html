@@ -1927,7 +1927,9 @@ if(KW){const go=a=>{if(a!=='add')return;setTimeout(()=>{if(OV)return;SH.slice().
 /* ======================= v2 (16 Oct 2026) =======================
    Sign-in required · everything syncs (phone + laptop) · Matrix and Team tabs · photos in comments · profile photo ·
    Google Calendar (optional) · on-time and deadline alerts · wide layout on a laptop. */
-const LOGIN_REQUIRED=SYNC()&&!/\.(local|test)$/.test(location.hostname);
+/* sign-in is required once sign-in emails work: buddhabytes.app/kairo/app/config.json {"loginRequired":true} switches it on without a new build */
+let LOGIN_REQUIRED=SYNC()&&!/\.(local|test)$/.test(location.hostname)&&K.loginReq===true;
+if(SYNC()&&!/\.(local|test)$/.test(location.hostname))fetch('https://buddhabytes.app/kairo/app/config.json?t='+Math.floor(Date.now()/36e5),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(c=>{if(!c)return;const on=c.loginRequired===true;if(on!==K.loginReq){K.loginReq=on;save()}LOGIN_REQUIRED=on;if(on&&needLogin()&&!OV)showLogin(V.lgEmail?'code':'email');else if(!on)hideLogin()}).catch(()=>{});
 if(!K.avatars)K.avatars={};
 const STORE=()=>KAIRO_SB_URL.replace(/\/$/,'')+'/storage/v1/object/';
 
@@ -2107,6 +2109,9 @@ async function deleteMyPhotos(){try{await ensureToken();if(!K.auth)return;const 
  const names=[];for(const pre of [K.auth.uid+'/',K.auth.uid+'/c/']){const r=await fetch(base+'list/kairo',{method:'POST',headers:h,body:JSON.stringify({prefix:pre,limit:1000})});const j=await r.json().catch(()=>[]);(Array.isArray(j)?j:[]).forEach(o=>{if(o.id)names.push(pre+o.name)})}
  if(names.length)await fetch(base+'kairo',{method:'DELETE',headers:h,body:JSON.stringify({prefixes:names})})}catch(e){}}
 const _sbDel=sbReq;sbReq=async function(path,body,auth){if(path==='/rest/v1/rpc/kairo_delete_account')await deleteMyPhotos();return _sbDel(path,body,auth)};
+/* ---------- speed: very long lists draw the first 100 rows; "Show all" draws the rest ---------- */
+const _listV2=list;list=function(ts,o){if(!ts||ts.length<=120||V.showAll===V.list+V.tab)return _listV2(ts,o);return _listV2(ts.slice(0,100),o)+`<button class="btn sec wide" data-a="showAll" style="margin-top:8px">Show all ${ts.length} tasks</button>`};
+A.showAll=()=>{V.showAll=V.list+V.tab;render()};
 /* ---------- styles ---------- */
 (()=>{const st=document.createElement('style');st.textContent=`
 #login{position:fixed;inset:0;z-index:200;background:linear-gradient(165deg,#E6FBF8,#F7FBFA 55%);display:grid;place-items:center;padding:24px;overflow:auto}
