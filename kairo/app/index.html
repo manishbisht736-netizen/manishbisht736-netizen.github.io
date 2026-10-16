@@ -2102,6 +2102,11 @@ document.addEventListener('change',e=>{const el=e.target;if(el.dataset&&el.datas
 /* ---------- deadline: always one tap away in quick add ---------- */
 const _capV2=captureSheet;captureSheet=function(pre){_capV2(pre);const s=SH[SH.length-1];if(!s)return;const hint=$('.xs.mut',s.w);if(hint&&!/by fri/.test(hint.innerHTML))hint.innerHTML=hint.innerHTML.replace('by fri','by fri (deadline)')};
 
+/* ---------- deleting the account also deletes this person's photos from Storage ---------- */
+async function deleteMyPhotos(){try{await ensureToken();if(!K.auth)return;const h={apikey:KAIRO_SB_KEY,authorization:'Bearer '+K.auth.access,'content-type':'application/json'};const base=STORE();
+ const names=[];for(const pre of [K.auth.uid+'/',K.auth.uid+'/c/']){const r=await fetch(base+'list/kairo',{method:'POST',headers:h,body:JSON.stringify({prefix:pre,limit:1000})});const j=await r.json().catch(()=>[]);(Array.isArray(j)?j:[]).forEach(o=>{if(o.id)names.push(pre+o.name)})}
+ if(names.length)await fetch(base+'kairo',{method:'DELETE',headers:h,body:JSON.stringify({prefixes:names})})}catch(e){}}
+const _sbDel=sbReq;sbReq=async function(path,body,auth){if(path==='/rest/v1/rpc/kairo_delete_account')await deleteMyPhotos();return _sbDel(path,body,auth)};
 /* ---------- styles ---------- */
 (()=>{const st=document.createElement('style');st.textContent=`
 #login{position:fixed;inset:0;z-index:200;background:linear-gradient(165deg,#E6FBF8,#F7FBFA 55%);display:grid;place-items:center;padding:24px;overflow:auto}
