@@ -1,1 +1,1 @@
-{"loginRequired": false, "note": "Set to true once Kairo sign-in emails (Resend SMTP in the kairo Supabase project) work."}
+{"loginRequired": true, "note": "Sign-in required since 17 Oct 2026 (Resend SMTP set in the kairo Supabase project). Set false to make sign-in optional again."}
