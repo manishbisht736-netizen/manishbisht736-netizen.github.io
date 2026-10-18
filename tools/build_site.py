@@ -23,10 +23,10 @@ e = html.escape
 
 APPS = [
     dict(
-        slug="rise", name="Rise", title="Rise: Fitness, Diet & Focus", kind="Fitness · Food · Focus",
+        slug="rise", name="Stryka", title="Stryka: Fitness & 3D Workouts", kind="Fitness · Food · Focus",
         accent="#2DD4BF", accent_text="#0F766E", ink="#06201C", hero="#0B1413",
         short="Train with 3D exercise videos, track runs and regional food, and find calm with Monk mode.",
-        lead="Workouts with real 3D exercise videos, runs, food tracking with 1,045 regional foods, a health score and calm focus, all in one app built for the Gulf and South Asia.",
+        lead="Workouts with real 3D exercise videos, runs, food tracking with 1,045 regional foods, a health score and calm focus, all in one app. Free to start, made in Dubai for everyone.",
         features=[
             ("barbell", "3D exercise videos", "382 recorded 3D clips across 269 movements, with plans for the gym, home or no equipment at all."),
             ("person-simple-run", "Runs", "Live pace, distance, splits and laps, plus a calendar of upcoming races near you."),
@@ -37,16 +37,16 @@ APPS = [
             ("users-three", "Sweat Stories & Groups", "Share workouts, cheer friends on and train together in a supportive feed."),
             ("calendar-check", "A plan that fits", "A weekly calendar that adapts to your goal, level and the days you can train."),
         ],
-        shots=["Today's workout", "Workout player", "Food photo log", "Monk mode", "Sweat Stories", "Run tracking"],
-        split=("Honest numbers, healthy habits", "Rise is built to help you show up, not to keep you scrolling.",
+        shots=["Pulse: your day at a glance", "Workout player", "Food photo log", "Monk mode", "Groups", "Run tracking"],
+        split=("Honest numbers, healthy habits", "Stryka is built to help you show up, not to keep you scrolling.",
                ["Everything is free during launch", "No fake streak pressure or countdown offers",
                 "Health numbers are labelled as estimates", "Delete your account and data any time from the app"],
                "rise-2"),
         faq=[
-            ("Is Rise free?", "Yes. Everything in Rise is free during launch. If paid plans arrive later, prices will be real and shown clearly in the app before you pay."),
-            ("Does Rise work with my watch?", "Watch and Health Connect support is coming soon. Until then you can log steps, sleep and workouts yourself."),
-            ("Do I need gym equipment?", "No. Pick home or no-equipment plans and Rise only shows exercises you can do with what you have."),
-            ("Is Rise medical advice?", "No. Rise is a wellness app. Calories, health score and other numbers are estimates and not medical advice."),
+            ("Is Stryka free?", "Yes. Everything in Stryka is free during launch. If paid plans arrive later, prices will be real and shown clearly in the app before you pay."),
+            ("Does Stryka work with my watch?", "Yes. Stryka reads steps, sleep, heart rate and workouts from Health Connect on Android and Apple Health on iPhone, with your permission. You can also log them yourself."),
+            ("Do I need gym equipment?", "No. Pick home or no-equipment plans and Stryka only shows exercises you can do with what you have."),
+            ("Is Stryka medical advice?", "No. Stryka is a wellness app. Calories, health score and other numbers are estimates and not medical advice."),
         ],
         legal=[("Privacy policy", "../privacy.html"), ("Delete account & data", "../delete-data.html")],
     ),
@@ -353,7 +353,7 @@ def home():
     pr = "".join(f'<div class="feature reveal"><div class="fi">{ic(i)}</div><h4>{e(t)}</h4><p>{e(d)}</p></div>' for i, t, d in principles)
     stack = "".join(phone(f"assets/img/apps/{s}/shot-1.webp", "", lazy=False) for s in ("unwind", "rise", "dailygrowth"))
     out = head("Buddha Bytes | Calm, honest apps for everyday life",
-               "Buddha Bytes is an independent app studio in Dubai making calm, honest apps: Rise, NOORA, Kairo, Mauna, Unwind and Daily Growth.",
+               "Buddha Bytes is an independent app studio in Dubai making calm, honest apps: Stryka, NOORA, Kairo, Mauna, Unwind and Daily Growth.",
                "https://buddhabytes.app/", "assets/img/photos/home.webp", "")
     out += nav("", [("Apps", "#apps"), ("Approach", "#approach"), ("About", "#about")])
     out += f"""
