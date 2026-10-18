@@ -479,7 +479,7 @@ textarea.ttl{resize:none;overflow:hidden}
 /* ============ Kairo · Plan kindly. Focus deeply. Finish your day. ============
    Single-file app (Capacitor wrapper on Android). All data stays on the device
    in localStorage['kairo.v1']; the app makes no network requests. */
-const VER='1.1.0';
+const VER='1.2.0';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const H=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-5);
@@ -640,7 +640,7 @@ function logT(t,text){(t.log=t.log||[]).push({at:Date.now(),by:meRef(),t:text});
 const STAGES={todo:{l:'To do',c:'#8A9A96'},doing:{l:'In progress',c:'#2F8FE8'},blocked:{l:'Blocked',c:'#E8A13A'},done:{l:'Done',c:'#16A34A'}};
 const stageOf=t=>t.status==='done'?'done':(t.stage||'todo');
 const LIVE=t=>t.status!=='deleted'&&t.status!=='letgo';
-const assignedToMe=t=>!!(t.assignee&&isMe(t.assignee)&&!(t.by&&isMe(t.by)));
+let assignedToMe=t=>!!(t.assignee&&isMe(t.assignee)&&!(t.by&&isMe(t.by)));
 const delegatedByMe=t=>!!(t.assignee&&!isMe(t.assignee)&&(!t.by||isMe(t.by)||!t.by.email));
 function note(text,taskId,kind){K.notes.unshift({id:uid(),at:Date.now(),t:text,task:taskId||null,kind:kind||'info',read:false});if(K.notes.length>80)K.notes.length=80;save()}
 
@@ -1850,10 +1850,10 @@ const _renderV=render;render=function(){_renderV();mountLotties($('#main'))};
 const _renderOVV=renderOV;renderOV=function(){_renderOVV();mountLotties($('#ovl'))};
 const _sheetV=sheet;sheet=function(){const w=_sheetV.apply(null,arguments);mountLotties(w);return w};
 const EMPTY_ILL={inbox:'inbox-cleanup',mine:'team-assignment',delegated:'mail-sent',done:'completed-tasks',someday:'day-dreaming',week:'calendar',all:'to-do-list'};
-function focusPhoto(f){if(f&&f.phase==='break')return'clouds';const s=Object.keys(K.set.snd||{});return s.includes('rain')?'rain':s.includes('wind')?'pines':s.includes('ocean')?'whirl':s.includes('fire')?'golden':'leaves'}
+function focusPhoto(f){if(f&&f.phase==='break')return'clouds';const s=Object.keys(K.set.snd||{});return s.includes('rain')?'rain':s.includes('wind')?'pines':s.includes('ocean')?'whirl':s.includes('fire')?'fire':'leaves'}
 Object.assign(ART,(()=>{const o={...ART};const deco=(a,b)=>`<img class="i3 fl3 da" src="${MEDIA}3d/${a}.webp" alt=""><img class="i3 fl3 db" src="${MEDIA}3d/${b}.webp" alt="">`;
  return{logo:()=>o.logo()+deco('rocket','sun'),capture:()=>o.capture()+deco('pencil','notebook'),assign:()=>o.assign()+deco('megaphone','mail'),cal:()=>o.cal()+deco('calender','clock'),timeline:()=>o.timeline()+deco('target','tick'),focus:()=>o.focus()+deco('headphone','moon')}})());
-INTRO[0].ph='beach';INTRO[5].ph='night';
+
 const _smartV=smartLists;smartLists=function(){return _smartV().map(s=>Object.assign(s,{i:img3(s.k,26)}))};
 
 
@@ -2172,6 +2172,185 @@ body.lg-on #nav,body.lg-on #app{visibility:hidden}
 @media(min-width:900px){#app{max-width:720px}}
 @media(prefers-color-scheme:dark){#login{background:linear-gradient(165deg,#0E2421,#0B1513 60%)}}
 `;document.head.appendChild(st)})();
+
+/* ======================= v3 look (18 Oct 2026): calmer, TickTick-style quick add, matrix and month ======================= */
+const PCOL={1:'#E5484D',2:'#E8A317',3:'#2F80ED',4:'var(--tx2)'};
+const PNAME={1:'High',2:'Medium',3:'Low',4:'None'};
+
+/* ---------- quick add: title, note, then one row of tappable choices and a round send button ---------- */
+captureSheet=function(pre){pre=pre||{};capIgn=[];
+ const st={doDate:pre.doDate!==undefined?pre.doDate:(V.tab==='tasks'&&V.list==='today'?today():null),start:pre.start||null,dueDate:null,prio:4,project:pre.project||(V.tab==='tasks'&&String(V.list).startsWith('p:')?V.list.slice(2):null),tags:pre.tags||[],assign:!!pre.assign};
+ const dateLbl=()=>st.doDate?(st.doDate===today()?'Today':st.doDate===addDays(today(),1)?'Tomorrow':fmtDate(st.doDate))+(st.start?' '+fmtT(st.start):''):'Date';
+ const html=`<div class="qa3"><input class="qa3t" id="qa" placeholder="What would you like to do?" autocomplete="off" enterkeyhint="send" aria-label="Task">
+ <textarea class="qa3d" id="qaN" rows="1" placeholder="Description" aria-label="Description"></textarea>
+ <div class="chips qa3p" id="qaChips" aria-live="polite"></div>
+ <div class="qa3bar"><button class="qa3c" id="qcDate">${IC.cal}<span>${dateLbl()}</span></button><button class="qa3i" id="qcPrio" aria-label="Priority">${IC.flag}</button><button class="qa3i" id="qcList" aria-label="List">${IC.folder}</button><button class="qa3i" id="qcTag" aria-label="Tags">#</button><button class="qa3i" id="qcMore" aria-label="More: deadline, assign, brain dump">${IC.dots||'•••'}</button><span class="sp"></span><button class="qa3s" id="qaAdd" aria-label="Add task">${IC.send}</button></div></div>`;
+ sheet('New task',html,w=>{const inp=$('#qa',w),note=$('#qaN',w);w.classList.add('qa3w');
+  const paint=()=>{$('#qcDate',w).classList.toggle('on',!!st.doDate);$('#qcDate span',w).textContent=dateLbl();
+   const pb=$('#qcPrio',w);pb.style.color=st.prio<4?PCOL[st.prio]:'';pb.classList.toggle('on',st.prio<4);
+   const p=st.project&&P(st.project);const lb=$('#qcList',w);lb.classList.toggle('on',!!p);lb.innerHTML=p?`<span class="qa3e">${H(p.emoji||'📁')}</span>`:IC.folder;
+   $('#qcTag',w).classList.toggle('on',st.tags.length>0);$('#qcMore',w).classList.toggle('on',!!(st.dueDate||st.assign));
+   const pp=parseNL(inp.value,capIgn);const extra=[st.dueDate?`<span class="chip on">${IC.flag} Due ${fmtDate(st.dueDate)}</span>`:'',st.assign?`<span class="chip on">${IC.userplus} Assign after adding</span>`:'',st.tags.map(t=>`<span class="chip on">#${H(t)}</span>`).join('')].join('');
+   $('#qaChips',w).innerHTML=pp.chips.map((c,i)=>`<button class="chip on" data-ci="${i}" aria-label="Remove ${H(c.label)}">${H(c.label)} ${IC.x}</button>`).join('')+extra;
+   $$('[data-ci]',w).forEach(b=>b.onclick=()=>{capIgn.push(pp.chips[+b.dataset.ci].raw);paint();inp.focus()})};
+  inp.oninput=paint;note.oninput=()=>{note.style.height='auto';note.style.height=Math.min(140,note.scrollHeight)+'px'};
+  const pick=(title,opts,cb)=>sheet(title,`<div class="stack">${opts.map((o,i)=>`<button class="lcard linkrow qa3o" data-i="${i}">${o.ic||''}<span class="sp">${o.l}</span>${o.on?IC.check:''}</button>`).join('')}</div>`,x=>{$$('[data-i]',x).forEach(b=>b.onclick=()=>{closeSheet(x);cb(opts[+b.dataset.i]);paint();inp.focus()})},{nofocus:true});
+  $('#qcDate',w).onclick=()=>{const tk=today();const nm=(()=>{const d=parseD(tk);return addDays(tk,((8-d.getDay())%7)||7)})();
+   sheet('Date',`<div class="stack"><div class="qa3dates">${[['Today',tk],['Tomorrow',addDays(tk,1)],['Next Monday',nm],['No date',null]].map(([l,k])=>`<button class="chip ${st.doDate===k?'on':''}" data-k="${k||''}">${l}</button>`).join('')}</div>
+    <label class="stack" style="gap:4px"><span class="lbl">Pick a day</span><input class="f" type="date" id="qdD" value="${st.doDate||''}"></label>
+    <label class="stack" style="gap:4px"><span class="lbl">Time (optional)</span><input class="f" type="time" id="qdT" value="${st.start||''}"></label>
+    <label class="stack" style="gap:4px"><span class="lbl">Deadline (optional)</span><input class="f" type="date" id="qdDue" value="${st.dueDate||''}"></label>
+    <button class="btn wide" id="qdOk">Done</button></div>`,x=>{$$('[data-k]',x).forEach(b=>b.onclick=()=>{st.doDate=b.dataset.k||null;if(!st.doDate)st.start=null;$('#qdD',x).value=st.doDate||'';$$('[data-k]',x).forEach(c=>c.classList.toggle('on',c===b))});
+    $('#qdOk',x).onclick=()=>{st.doDate=$('#qdD',x).value||st.doDate&&$('#qdD',x).value||null;st.start=$('#qdT',x).value||null;if(st.start&&!st.doDate)st.doDate=today();st.dueDate=$('#qdDue',x).value||null;closeSheet(x);paint();inp.focus()}},{nofocus:true})};
+  $('#qcPrio',w).onclick=()=>pick('Priority',[1,2,3,4].map(n=>({l:PNAME[n]+' priority',ic:`<span class="qa3flag" style="color:${PCOL[n]}">${IC.flag}</span>`,on:st.prio===n,n})),o=>{st.prio=o.n});
+  $('#qcList',w).onclick=()=>pick('List',[{l:'Inbox (no list)',ic:'<span class="qa3e">📥</span>',on:!st.project,id:null}].concat(K.projects.filter(p=>!p.deleted&&!p.archived).map(p=>({l:H(p.name),ic:`<span class="qa3e">${H(p.emoji||'📁')}</span>`,on:st.project===p.id,id:p.id}))),o=>{st.project=o.id});
+  $('#qcTag',w).onclick=()=>{const all=[...new Set(K.tasks.flatMap(t=>t.tags||[]))].slice(0,16);sheet('Tags',`<div class="stack"><div class="chips">${all.map(t=>`<button class="chip ${st.tags.includes(t)?'on':''}" data-t="${H(t)}">#${H(t)}</button>`).join('')||'<span class="xs mut">No tags yet.</span>'}</div><div class="rowx"><input class="f sp" id="qtN" placeholder="New tag" maxlength="30"><button class="btn" id="qtOk">Done</button></div></div>`,x=>{
+   $$('[data-t]',x).forEach(b=>b.onclick=()=>{const t=b.dataset.t,i=st.tags.indexOf(t);if(i>=0)st.tags.splice(i,1);else st.tags.push(t);b.classList.toggle('on')});
+   $('#qtOk',x).onclick=()=>{const n=$('#qtN',x).value.trim().replace(/^#/,'').replace(/\s+/g,'-');if(n&&!st.tags.includes(n))st.tags.push(n);closeSheet(x);paint();inp.focus()}},{nofocus:true})};
+  $('#qcMore',w).onclick=()=>pick('More',[{l:st.assign?'Don’t assign':'Assign to someone',ic:IC.userplus,k:'asg'},{l:'Deadline',ic:IC.flag,k:'due'},{l:'Brain dump (many tasks)',ic:IC.brain,k:'dump'}],o=>{if(o.k==='asg')st.assign=!st.assign;else if(o.k==='due')$('#qcDate',w).click();else{closeSheet(w);dumpSheet()}});
+  const add=()=>{const v=inp.value.trim();if(!v){inp.focus();inp.classList.add('shake');setTimeout(()=>inp.classList.remove('shake'),400);toast('Type what needs doing first.');return}
+   const pp=parseNL(v,capIgn);if(!pp.title){toast('Type what needs doing first.');return}
+   const ex={};if(st.doDate){ex.doDate=st.doDate;ex.status='open'}if(st.start){ex.start=st.start;ex.status='open'}if(st.project)ex.project=st.project;if(st.prio<4)ex.prio=st.prio;if(st.dueDate)ex.dueDate=st.dueDate;
+   if(st.tags.length)ex.tags=[...new Set([...(pp.tags||[]),...st.tags])];if(pre.someday)ex.status='someday';if(pre.stage){ex.stage=pre.stage;ex.status='open'}
+   const t=taskFromNLParsed(pp,ex);if(!t)return;if(note.value.trim())t.notes=note.value.trim();if(st.prio<4)t.prio=st.prio;logT(t,'created');save();
+   inp.value='';note.value='';capIgn=[];paint();render();
+   if(st.assign){closeSheet(w);setTimeout(()=>assignSheet(t.id),60);return}
+   toast(`Added “${H(t.title)}”${t.status==='inbox'?' to Inbox':t.doDate?' · '+fmtDate(t.doDate):''}`,[['Open',()=>detailSheet(t.id)]]);inp.focus()};
+  $('#qaAdd',w).onclick=add;inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();add()}};paint()})};
+IC.dots=IC.dots||'<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><circle cx="60" cy="128" r="16"/><circle cx="128" cy="128" r="16"/><circle cx="196" cy="128" r="16"/></svg>';
+
+/* ---------- matrix: neutral cards, numbered coloured headers, plain checkbox rows, fills the screen ---------- */
+const QD3=[{k:'do',n:'Urgent & Important',r:'I',c:'#E5484D',p:1},{k:'plan',n:'Not Urgent & Important',r:'II',c:'#E8A317',p:2},{k:'deleg',n:'Urgent & Unimportant',r:'III',c:'#2F80ED',p:3},{k:'later',n:'Not Urgent & Unimportant',r:'IV',c:'#17A673',p:4}];
+QD.forEach((q,i)=>Object.assign(q,{n:QD3[i].n,d:'',c:QD3[i].c}));
+VIEWS.mx=()=>{const op=K.tasks.filter(t=>t.status==='open'||t.status==='inbox');const tk=today();
+ const row=t=>`<div class="mx3t" draggable="true" data-drag="${t.id}"><button class="mx3ck" data-a="complete" data-id="${t.id}" aria-label="Complete ${H(t.title)}"></button><button class="mx3tt" data-a="open" data-id="${t.id}">${H(t.title)}${t.dueDate?`<span class="mx3due ${t.dueDate<=tk?'late':''}">${t.dueDate===tk?'Today':fmtDate(t.dueDate)}</span>`:''}</button><button class="ib mx3mv" data-a="mxMove" data-id="${t.id}" aria-label="Move ${H(t.title)}">${IC.chev}</button></div>`;
+ return topbar('Priority Matrix')+`<div class="mx3g">${QD3.map(q=>{const ts=op.filter(t=>quadOf(t)===q.k).sort((a,b)=>(a.dueDate||'9')<(b.dueDate||'9')?-1:1);
+  return`<section class="mx3q" data-drop="${q.k}" style="--qc:${q.c}"><header><span class="mx3r">${q.r}</span><b class="sp">${q.n}</b><button class="ib mx3add" data-a="mxAdd" data-q="${q.k}" aria-label="Add to ${q.n}">${IC.plus}</button></header>
+  <div class="mx3l">${ts.map(row).join('')||'<p class="mx3e">No tasks</p>'}</div></section>`}).join('')}</div>`};
+
+/* ---------- styles ---------- */
+(()=>{const st=document.createElement('style');st.textContent=`
+.qa3w .sh{display:none}.qa3w .sheet{padding-top:10px}
+.qa3{display:flex;flex-direction:column;gap:4px}
+.qa3t{border:0;background:transparent;font:inherit;font-size:19px;font-weight:700;color:var(--tx);padding:8px 2px;outline:none;width:100%}
+.qa3d{border:0;background:transparent;font:inherit;font-size:15px;color:var(--tx);padding:2px 2px 6px;outline:none;resize:none;width:100%}
+.qa3d::placeholder,.qa3t::placeholder{color:var(--tx2)}
+.qa3p:empty{display:none}
+.qa3bar{display:flex;align-items:center;gap:4px;border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+.qa3c{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;border-radius:12px;background:none;border:0;color:var(--tx2);font-weight:700;font-size:14.5px}
+.qa3c svg{width:20px;height:20px}.qa3c.on{color:var(--prt)}
+.qa3c span{white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.qa3i{width:44px;height:44px;border-radius:12px;background:none;border:0;color:var(--tx2);display:grid;place-items:center;font-weight:800;font-size:19px}
+.qa3i svg{width:21px;height:21px}.qa3i.on{color:var(--prt);background:color-mix(in srgb,var(--pr) 12%,transparent)}
+.qa3e{font-size:19px}
+.qa3s{width:48px;height:48px;border-radius:50%;border:0;background:var(--pr);color:var(--onpr,#03261F);display:grid;place-items:center;box-shadow:0 4px 12px color-mix(in srgb,var(--pr) 40%,transparent)}
+.qa3s svg{width:21px;height:21px}
+.qa3o{gap:12px}.qa3flag svg{width:20px;height:20px}
+.qa3dates{display:flex;flex-wrap:wrap;gap:8px}
+.shake{animation:qashake .35s}@keyframes qashake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.mx3g{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:10px;margin-top:8px;min-height:calc(100vh - 200px)}
+.mx3q{background:var(--sf);border:1px solid var(--line);border-radius:22px;padding:12px 10px;display:flex;flex-direction:column;gap:4px;min-height:0;overflow:hidden;border-top:3px solid transparent;transition:border-color .15s}
+.mx3q.over{border-color:var(--qc)}
+.mx3q header{display:flex;align-items:center;gap:7px;color:var(--qc);padding:0 2px 4px}
+.mx3q header b{font-size:13.5px;line-height:1.2}
+.mx3r{flex:none;min-width:22px;height:22px;padding:0 4px;border-radius:11px;background:var(--qc);color:#fff;font:800 11px/22px Georgia,serif;text-align:center}
+.mx3add{width:34px;height:34px;min-height:34px;color:var(--qc);margin:-6px -4px -6px 0}.mx3add svg{width:18px;height:18px}
+.mx3l{display:flex;flex-direction:column;overflow-y:auto;flex:1;min-height:0}
+.mx3t{display:flex;align-items:flex-start;gap:2px;min-height:40px}
+.mx3t.dragging{opacity:.4}
+.mx3ck{width:20px;height:20px;flex:none;border-radius:5px;border:2px solid color-mix(in srgb,var(--qc) 70%,var(--tx2));background:transparent;margin:10px 6px 0 2px}
+.mx3tt{flex:1;min-width:0;background:none;border:0;text-align:left;padding:8px 2px;color:var(--tx);font-size:14px;line-height:1.3;display:flex;flex-direction:column;gap:1px;overflow-wrap:anywhere}
+.mx3due{font-size:11.5px;color:var(--tx2);font-weight:600}.mx3due.late{color:#E5484D}
+.mx3mv{width:26px;min-height:40px;color:var(--tx2);opacity:.6}.mx3mv svg{width:13px;height:13px}
+.mx3e{margin:auto;color:var(--tx2);font-size:14px}
+@media(min-width:900px){.mx3g{gap:16px}.mx3q{padding:16px}}
+`;document.head.appendChild(st)})();
+
+/* ---------- assign by name: everyone you've worked with or share a list with, found as you type ---------- */
+function knownPeople(){const map=new Map();const add=p=>{if(!p||!p.email)return;const e=p.email.toLowerCase();if(e===myEmail())return;const x=map.get(e);if(x){if(!x.name&&p.name)x.name=p.name}else map.set(e,{email:e,name:p.name||''})};
+ K.people.slice().sort((a,b)=>(b.last||0)-(a.last||0)).forEach(add);K.projects.forEach(pr=>(pr.members||[]).forEach(add));K.tasks.forEach(t=>{add(t.assignee);add(t.by)});return[...map.values()]}
+const pFirst=p=>(p.name||p.email.split('@')[0]).trim();
+function findPeople(q){q=String(q||'').trim().toLowerCase();if(!q)return knownPeople().slice(0,8);return knownPeople().filter(p=>(p.name||'').toLowerCase().split(/\s+/).some(w=>w.startsWith(q))||(p.name||'').toLowerCase().startsWith(q)||p.email.startsWith(q)).slice(0,8)}
+function matchPerson(word){const r=findPeople(word);const w=word.toLowerCase();return r.find(p=>pFirst(p).toLowerCase()===w||pFirst(p).toLowerCase().split(/\s+/)[0]===w)||(r.length===1?r[0]:null)}
+peopleFor=function(t){const pr=t&&P(t.project);const first=pr?(pr.members||[]).map(m=>m.email):[];const all=knownPeople();return all.sort((a,b)=>(first.includes(b.email)?1:0)-(first.includes(a.email)?1:0)).slice(0,12)};
+personPicker=function(t,prefix){const ppl=peopleFor(t);
+ return`<input class="f" id="${prefix}Q" placeholder="Type a name or email" autocomplete="off" aria-label="Name or email">
+ <div class="stack ppl3" id="${prefix}L" style="gap:6px">${ppl.map(p=>`<button class="opt ${t&&t.assignee&&t.assignee.email===p.email?'on':''}" data-${prefix}="${H(p.email)}" data-n="${H(p.name||'')}" data-q="${H((p.name+' '+p.email).toLowerCase())}">${avatar(p,36)}<span class="sp"><b>${H(pFirst(p))}</b><span class="xs mut">${H(p.email)}</span></span></button>`).join('')}</div>
+ <div class="stack" id="${prefix}New" hidden style="gap:6px"><span class="lbl" id="${prefix}NewL">New person</span><input class="f" id="${prefix}E" type="email" inputmode="email" autocomplete="email" placeholder="Their email (only needed once)"><input class="f" id="${prefix}N" placeholder="Their name" autocomplete="off"></div>`};
+document.addEventListener('input',e=>{const el=e.target;if(!el.id||!/Q$/.test(el.id))return;const pre=el.id.slice(0,-1);const w=el.closest('.sheet')||document;const L=$('#'+pre+'L',w),N=$('#'+pre+'New',w);if(!L||!N)return;
+ const q=el.value.trim().toLowerCase();let shown=0;$$('[data-q]',L).forEach(b=>{const on=!q||b.dataset.q.split(/\s+/).some(x=>x.startsWith(q));b.hidden=!on;if(on)shown++});
+ const isEmail=EMAIL_RE.test(q);N.hidden=!(q&&(isEmail||!shown));if(!N.hidden){if(isEmail){$('#'+pre+'E',w).value=q;$('#'+pre+'NewL',w).textContent='New person'}else{$('#'+pre+'N',w).value=el.value.trim();$('#'+pre+'NewL',w).textContent=`First time assigning ${el.value.trim()}: add their email once`}}});
+
+/* quick add: "@Sara" assigns to Sara when Sara is someone you know */
+const _capV3=captureSheet;captureSheet=function(pre){_capV3(pre);const w=SH[SH.length-1]&&SH[SH.length-1].w;if(!w||!$('#qa',w))return;const inp=$('#qa',w);
+ const sug=document.createElement('div');sug.className='chips qa3who';inp.after(sug);let who=null;
+ const scan=()=>{const m=inp.value.match(/(?:^|\s)@([\p{L}][\p{L}.\-]*)$/u);const found=[...inp.value.matchAll(/(?:^|\s)@([\p{L}][\p{L}.\-]*)(?=\s|$)/gu)].map(x=>matchPerson(x[1])).filter(Boolean);who=found[0]||null;
+  sug.innerHTML=(m?findPeople(m[1]).map(p=>`<button class="chip" data-pick="${H(p.email)}">${avatar(p,20)} ${H(pFirst(p))}</button>`).join(''):'')+(who&&!m?`<span class="chip on">${avatar(who,20)} Assign to ${H(pFirst(who))}</span>`:'');
+  $$('[data-pick]',sug).forEach(b=>b.onclick=()=>{const p=knownPeople().find(x=>x.email===b.dataset.pick);inp.value=inp.value.replace(/@([\p{L}][\p{L}.\-]*)$/u,'@'+pFirst(p).split(/\s+/)[0]+' ');scan();inp.focus()})};
+ inp.addEventListener('input',scan);
+ const send=$('#qaAdd',w);const orig=send.onclick;const wrap=()=>{const v=inp.value;const p=who;if(p){inp.value=v.replace(/(?:^|\s)@([\p{L}][\p{L}.\-]*)(?=\s|$)/gu,m=>matchPerson(m.trim().slice(1))===p?' ':m).replace(/\s+/g,' ').trim()}
+  const before=K.tasks.length;orig();const t=K.tasks.length>before?K.tasks[K.tasks.length-1]:null;
+  if(t&&p){t.assignee={email:p.email,name:p.name||''};t.by=meRef();t.seen=false;if(t.status==='inbox')t.status='open';addPerson(t.assignee);logT(t,'assigned it to '+pname(t.assignee));save();render();afterAssign(t,'assigned','')}who=null;sug.innerHTML=''};
+ send.onclick=wrap;inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();wrap()}}};
+
+/* ---------- a little life: colour and 3D icons on the matrix and quick add ---------- */
+const MXI={do:'fire',plan:'target',deleg:'chat',later:'moon'};
+const _mxV3=VIEWS.mx;VIEWS.mx=function(){let h=_mxV3();QD3.forEach(q=>{h=h.replace(`<span class="mx3r">${q.r}</span>`,`<span class="mx3r">${q.r}</span>`);h=h.replace(new RegExp(`(data-drop="${q.k}"[\\s\\S]*?)<p class="mx3e">No tasks</p>`),`$1<div class="mx3e">${img3(MXI[q.k],46)}<span>No tasks</span></div>`)});return h};
+(()=>{const st=document.createElement('style');st.textContent=`
+.mx3q{background:linear-gradient(180deg,color-mix(in srgb,var(--qc) 10%,var(--sf)) 0,var(--sf) 90px)}
+.mx3e{margin:auto;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--tx2);font-size:13.5px;opacity:.9}.mx3e .i3{opacity:.85}
+.qa3who:empty{display:none}.qa3who .av{margin:0}
+#qcDate{color:var(--prt)}#qcDate:not(.on){color:var(--tx2)}
+.qa3bar .qa3i:nth-of-type(2){color:#E8A317}.qa3bar #qcTag{color:#8B5CF6}
+.ppl3 .opt[hidden]{display:none}
+`;document.head.appendChild(st)})();
+
+
+/* ---------- Today: a week strip under the header (tap a day to see it in the calendar) ---------- */
+function weekStrip3(){const tk=today();const d=parseD(tk);const ws=K.set.weekStart==null?1:K.set.weekStart;const st=addDays(tk,-((d.getDay()-ws+7)%7));
+ return`<div class="wk3">${[...Array(7)].map((_,i)=>{const k=addDays(st,i),dd=parseD(k);const ts=onDay(k);const open=ts.filter(t=>t.status==='open').length,done=ts.filter(t=>t.status==='done').length;
+  return`<button class="${k===tk?'on':''} ${k<tk?'past':''}" data-a="wk3" data-k="${k}" aria-label="${fmtDate(k,1)}, ${open} open"><span>${DAYN[dd.getDay()].slice(0,3)}</span><b>${dd.getDate()}</b><i>${open?[...Array(Math.min(open,3))].map(()=>'<em></em>').join(''):done?'<em class="dn"></em>':''}</i></button>`}).join('')}</div>`}
+A.wk3=d=>{if(d.k===today())return;V.calD=d.k;V.calM=d.k.slice(0,7);V.calMode='month';go('cal')};
+const _tvWk=todayView;todayView=function(){const h=_tvWk();const i=h.indexOf('</header>');return i<0?h:h.slice(0,i+9)+weekStrip3()+h.slice(i+9)};
+(()=>{const st=document.createElement('style');st.textContent=`
+.wk3{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:12px 0 2px}
+.wk3 button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0 6px;border-radius:16px;background:var(--sf);border:1px solid var(--line);color:var(--tx);min-height:64px}
+.wk3 button span{font-size:11px;color:var(--tx2);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.wk3 button b{font-size:17px;font-weight:800}
+.wk3 button i{display:flex;gap:3px;height:6px}.wk3 button em{width:5px;height:5px;border-radius:50%;background:var(--pr)}.wk3 button em.dn{background:var(--ok,#22a06b)}
+.wk3 button.on{background:var(--pr);border-color:var(--pr);color:var(--onpr,#03261F)}.wk3 button.on span{color:inherit;opacity:.8}.wk3 button.on em{background:var(--onpr,#03261F)}
+.wk3 button.past{opacity:.6}
+.cbars i{height:14px;font-size:9.5px;font-weight:700;color:var(--btx,#10201D);padding:0 3px;line-height:14px;border-radius:4px}
+.cbars i em{display:block;font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.cday{min-height:82px}
+`;document.head.appendChild(st)})();
+
+
+/* ---------- safety for shared content (App Store 1.2): report a comment, block a person ---------- */
+if(!Array.isArray(K.blocked))K.blocked=[];
+const isBlocked=e=>!!e&&(K.blocked||[]).includes(String(e).toLowerCase());
+A.cmMenu=d=>{const t=T(d.id);const c=t&&(t.comments||[]).find(x=>x.id===d.c);if(!c)return;const who=c.by||{};
+ sheet('Comment',`<div class="stack"><button class="lcard linkrow" id="cmRep">${IC.flag}<span class="sp"><b>Report this comment</b><br><span class="xs mut">Sends it to Buddha Bytes to review within 24 hours</span></span></button>
+ <button class="lcard linkrow" id="cmBlk">${IC.x}<span class="sp"><b>Block ${H(pname(who))}</b><br><span class="xs mut">Hide their comments and tasks they assign you</span></span></button></div>`,w=>{
+  $('#cmRep',w).onclick=()=>{const body=`Reported comment in Kairo\n\nTask: ${t.title}\nFrom: ${who.name||''} <${who.email||''}>\nComment: ${c.t||''}${c.img?'\nPhoto: '+c.img:''}\nReported by: ${myEmail()}`;
+   const u='mailto:support@buddhabytes.app?subject='+encodeURIComponent('Kairo report: comment')+'&body='+encodeURIComponent(body);
+   c.reported=true;save();closeSheet(w);refreshDetail(t.id);if(NATIVE&&PL.Browser&&PL.Browser.open)PL.Browser.open({url:u});else location.href=u;toast('Thanks. We review reports within 24 hours.')};
+  $('#cmBlk',w).onclick=()=>{const e=String(who.email||'').toLowerCase();if(!e||isMe(who)){closeSheet(w);return}if(!K.blocked.includes(e))K.blocked.push(e);save();closeSheet(w);refreshDetail(t.id);render();toast(`${H(pname(who))} is blocked. Unblock in Account & sharing.`)}},{nofocus:true})};
+const _dpV3=detailPane;detailPane=function(t,tab){const keep=t.comments;if(tab==='comments'&&keep)t.comments=keep.filter(c=>!isBlocked(c.by&&c.by.email));let h;try{h=_dpV3(t,tab)}finally{t.comments=keep}
+ if(tab!=='comments')return h;(t.comments||[]).filter(c=>c.by&&!isMe(c.by)&&!isBlocked(c.by.email)).forEach(c=>{const i=h.indexOf(`${H(pname(c.by))}</b> <span class="mut">${ago(c.at)}`);if(i>=0){const j=h.indexOf('</div>',i);h=h.slice(0,j)+`<button class="cmmore" data-a="cmMenu" data-id="${t.id}" data-c="${c.id}" aria-label="Report or block">${IC.dots}</button>`+h.slice(j)}});return h};
+/* tasks assigned by someone you blocked don't show */
+const _taV3=assignedToMe;assignedToMe=function(t){return _taV3(t)&&!isBlocked(t.by&&t.by.email)};
+const _accV3=YOU.account.r;YOU.account.r=function(){let h=_accV3();if((K.blocked||[]).length)h=h.replace('<div class="card stack"><h3>People</h3>',`<div class="card stack"><h3>Blocked</h3>${K.blocked.map(e=>`<div class="rowx"><span class="sp">${H(e)}</span><button class="chip" data-a="unblock" data-e="${H(e)}">Unblock</button></div>`).join('')}</div><div class="card stack"><h3>People</h3>`);return h};
+A.unblock=d=>{K.blocked=(K.blocked||[]).filter(x=>x!==d.e);save();render()};
+
+/* ---------- App Review sign-in: the review address signs in with a password (everyone else uses the email code) ---------- */
+const REVIEW_EMAIL='appreview@buddhabytes.app';
+const _showLoginV3=showLogin;showLogin=function(step){_showLoginV3(step);if(step!=='email')return;const e=$('#lgE');if(!e)return;
+ const pw=document.createElement('input');pw.className='f';pw.type='password';pw.id='lgP';pw.placeholder='Password';pw.autocomplete='current-password';pw.hidden=true;e.after(pw);
+ const chk=()=>{pw.hidden=e.value.trim().toLowerCase()!==REVIEW_EMAIL};e.addEventListener('input',chk);chk();
+ const go=$('#lgGo');const orig=go.onclick;go.onclick=async()=>{if(e.value.trim().toLowerCase()!==REVIEW_EMAIL)return orig();
+  try{const j=await sbReq('/auth/v1/token?grant_type=password',{email:REVIEW_EMAIL,password:pw.value},false);setSession(j);hideLogin();syncNow();render()}catch(err){toast('That password didn’t work.')}}};
+(()=>{const st=document.createElement('style');st.textContent=`.cmmore{background:none;border:0;color:var(--tx2);width:44px;height:44px;margin:-10px -8px -10px auto;display:inline-grid;place-items:center;margin-left:auto;float:right}.cmmore svg{width:16px;height:16px}`;document.head.appendChild(st)})();
 
 /* ---------------- boot ---------------- */
 MOUNTS.intro=mountIntro;
