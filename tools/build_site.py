@@ -51,31 +51,32 @@ APPS = [
         legal=[("Privacy policy", "../privacy.html"), ("Delete account & data", "../delete-data.html")],
     ),
     dict(
-        slug="noora", name="NOORA", title="NOORA: Fasting & Ramadan", kind="Intermittent fasting · Ramadan",
+        slug="fastwise", name="Fastwise", title="Fastwise: Intermittent Fasting", kind="Intermittent fasting · 16:8 · Ramadan",
         accent="#E7B75A", accent_text="#9A6A12", ink="#1D1B18", hero="#0E1320",
-        short="The honest fasting companion: evidence-labelled stages, a safety check first and a free Ramadan mode.",
-        lead="The intermittent fasting app that tells you the truth. Evidence-labelled fasting stages, a safety check before any plan, and a free Ramadan mode with your country's prayer times.",
+        short="Free intermittent fasting tracker: 16:8 timer, fasting journal, 160+ dishes from around the world and a free Ramadan mode for 45 countries.",
+        lead="The intermittent fasting tracker that tells you the truth. A live fasting timer, a safety check before any plan, a fasting journal and a free Ramadan mode — in English and Arabic.",
         features=[
             ("hourglass-medium", "An honest fasting ring", "Six stages, each marked Strong, Some, Animal-lab or Myth. No fake “detox” mode."),
             ("shield-check", "Safety check first", "A 60-second screening keeps every plan right for you before you start."),
-            ("moon-stars", "Free Ramadan mode", "Suhoor and iftar countdowns, hydration pacing, excused days and qada, and diabetes guidance."),
-            ("calendar-check", "Sunnah fasts", "Monday & Thursday, Ayyam al-Bid, Shawwal Six, Arafah and Ashura, with Hijri dates."),
-            ("camera", "Camera meal log", "Snap a meal and see honest calorie ranges instead of fake-precise numbers."),
-            ("cooking-pot", "Gulf & Arab recipes", "Kabsa, machboos, harees, lentil soup, fattoush and more for breaking your fast."),
+            ("calendar-check", "Fasting journal", "History, calendar and stats. Forgot the timer? Edit or add a past fast in seconds."),
+            ("cooking-pot", "160+ dishes worldwide", "Oats, salads, curries, ramen, kabsa and more, with honest calorie ranges instead of fake precision."),
+            ("moon-stars", "Free Ramadan mode", "Suhoor and iftar countdowns from your country's official method, for 45 countries, plus sunnah fasts with Hijri dates."),
+            ("timer", "Gentle reminders", "At most 3 alerts per fast and quiet while you sleep. A home-screen widget shows your live timer."),
             ("trend-up", "Weekly goals, not streaks", "Aim for 5 of 7 days, with 2 free breaks a month. No guilt."),
-            ("translate", "Arabic first", "Full right-to-left Arabic interface with optional Arabic-Indic digits, plus English."),
+            ("translate", "English and Arabic", "Full right-to-left Arabic as نور الصيام, plus English. 5 themes in light and dark."),
         ],
-        shots=["Fasting ring", "Today", "Ramadan mode", "Meals"],
-        split=("Real science, real prices", "NOORA never paywalls safety. The free plan stays useful for good.",
+        shots=["Fasting ring", "Today", "Ramadan mode", "Food list"],
+        split=("Real science, free at launch", "Every feature is free while Fastwise launches — and safety will never be paywalled.",
                ["Safety features, Ramadan mode and protein tracking are always free",
-                "Every claim carries an evidence label", "Prayer times for 14 Arab countries",
-                "NOORA Plus has real prices, never fake discounts"], "noora-2"),
+                "Every claim carries an evidence label", "Prayer times for 45 countries",
+                "No ads, no account, never fake discounts"], "fastwise-2"),
         faq=[
-            ("Is NOORA free?", "The core app is free forever, including safety screening, Ramadan mode, macros, core plans and 3 camera scans a day. NOORA Plus unlocks every plan and unlimited scans."),
-            ("Is fasting safe for me?", "NOORA asks a short safety check first and only offers plans that fit. If you're pregnant, have diabetes or another condition, talk to your doctor. NOORA is not a medical device."),
-            ("Which languages?", "Arabic (right-to-left) and English."),
+            ("Is Fastwise free?", "Yes — every plan and feature is free at launch. Safety screening, Ramadan mode, reminders and macros will always stay free."),
+            ("Is fasting safe for me?", "Fastwise asks a short safety check first and only offers plans that fit. If you're pregnant, have diabetes or another condition, talk to your doctor. Fastwise is not a medical device."),
+            ("Which languages?", "English and Arabic (right-to-left)."),
+            ("Does Fastwise collect my data?", "No account and no server: your fasts, meals and health entries stay on your phone. Only the city you pick is sent to a prayer-times service for suhoor and iftar times."),
         ],
-        legal=[],
+        legal=[("Privacy policy", "privacy.html")],
     ),
     dict(
         slug="kairo", name="Kairo", title="Kairo: Day Planner & Focus", kind="Planner · Focus · Shared tasks",
@@ -353,7 +354,7 @@ def home():
     pr = "".join(f'<div class="feature reveal"><div class="fi">{ic(i)}</div><h4>{e(t)}</h4><p>{e(d)}</p></div>' for i, t, d in principles)
     stack = "".join(phone(f"assets/img/apps/{s}/shot-1.webp", "", lazy=False) for s in ("unwind", "rise", "dailygrowth"))
     out = head("Buddha Bytes | Calm, honest apps for everyday life",
-               "Buddha Bytes is an independent app studio in Dubai making calm, honest apps: Stryka, NOORA, Kairo, Mauna, Unwind and Daily Growth.",
+               "Buddha Bytes is an independent app studio in Dubai making calm, honest apps: Stryka, Fastwise, Kairo, Mauna, Unwind and Daily Growth.",
                "https://buddhabytes.app/", "assets/img/photos/home.webp", "")
     out += nav("", [("Apps", "#apps"), ("Approach", "#approach"), ("About", "#about")])
     out += f"""

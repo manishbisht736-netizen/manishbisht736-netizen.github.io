@@ -11,22 +11,22 @@ SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LIB = r"C:\Users\user\Documents\Design-Library"
 PHOTOS = r"D:\Desktop\Design-Library\05-Photos"
 HOME = r"C:\Users\user"
-SHOTS_TMP = os.environ.get("SHOTS_DIR", "")  # fresh screenshots of NOORA/Kairo/Mauna (optional)
+SHOTS_TMP = os.environ.get("SHOTS_DIR", "")  # fresh screenshots of Fastwise/Kairo/Mauna (optional)
 
 IMG = os.path.join(SITE, "assets", "img")
 
 # Hero photos (Unsplash licence) from the Design Library, by Unsplash photo id
 PHOTO_IDS = {
-    "home": "4iTVoGYY7bM", "rise": "a6FHROHuQ9o", "noora": "tIL1v1jSoaY", "kairo": "tPRFj3A1rxo",
+    "home": "4iTVoGYY7bM", "rise": "a6FHROHuQ9o", "fastwise": "tIL1v1jSoaY", "kairo": "tPRFj3A1rxo",
     "mauna": "SyGaxTcJl3g", "unwind": "oQl0eVYd_n8", "dailygrowth": "OlexUO10-wM",
     # second photo for each app page's "privacy / promise" block
-    "rise-2": "n2RKRotiNoM", "noora-2": "MljwsnGwdOY", "kairo-2": "Lks7vei-eAg", "mauna-2": "lA_EKRdsMcE",
+    "rise-2": "n2RKRotiNoM", "fastwise-2": "MljwsnGwdOY", "kairo-2": "Lks7vei-eAg", "mauna-2": "lA_EKRdsMcE",
     "unwind-2": "W7AyAs7azHc", "dailygrowth-2": "GUKZev71amQ",
 }
 
 ICONS = {
     "rise": rf"{HOME}\rise-claude-code\store\icon-512.png",
-    "noora": rf"{HOME}\fasting-app\assets\icon-only.png",
+    "fastwise": rf"{HOME}\fasting-app\assets\icon-only.png",
     "kairo": rf"{HOME}\kairo-app\store\icon-512.png",
     "mauna": rf"{HOME}\mauna-app\store\icon-512.png",
     "unwind": rf"{HOME}\sukoon-app\store\icon-512.png",
@@ -41,7 +41,7 @@ SCREENS = {
     "dailygrowth": [rf"{HOME}\habit-tracker-app\docs\screens\{n}.png" for n in
                     ("bloom-today", "bloom-journeys", "bloom-insights", "bloom-night-today")],
 }
-for app in ("noora", "kairo", "mauna"):
+for app in ("fastwise", "kairo", "mauna"):
     if SHOTS_TMP:
         SCREENS[app] = sorted(glob.glob(os.path.join(SHOTS_TMP, app, "[0-9].png")))
 
