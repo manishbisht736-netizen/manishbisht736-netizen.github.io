@@ -40,4 +40,22 @@ ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:8px;text-align:sta
   var code=(new URLSearchParams(location.search).get('r')||p.code||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
   var pl=document.getElementById('play');pl.textContent='Do this workout free on Stryka';if(code){document.getElementById('codebox').hidden=false;document.getElementById('code').textContent=code;pl.href='https://play.google.com/store/apps/details?id=com.buddhabytes.rise&referrer='+encodeURIComponent('utm_source=rise_share&utm_medium=workout&utm_campaign='+code+'&utm_content='+m[1])}
  }).catch(function(){document.getElementById('t').textContent='Train with me on Stryka';document.getElementById('s').textContent='This workout link has expired or was removed. Here’s Stryka instead.'})})();
+
+/* "Run with me" route invites from the app (19 Oct 2026): /w/route?g=<encoded line>&n=&k=&w=&m=&b= — the route is in the
+   link itself, drawn here as a simple line for friends who don't have Stryka yet. */
+(function(){if(!/^\/w\/route\/?$/.test(location.pathname))return;var q=new URLSearchParams(location.search),g=q.get('g')||'';
+ function dec(s){var pts=[],i=0,la=0,lo=0;function one(){var r=0,sh=0,b;do{b=s.charCodeAt(i++)-63;r|=(b&31)<<sh;sh+=5}while(b>=32&&i<=s.length);return r&1?~(r>>1):r>>1}while(i<s.length){la+=one();lo+=one();pts.push([la/1e5,lo/1e5])}return pts}
+ var P=dec(g).filter(function(p){return isFinite(p[0])&&isFinite(p[1])});if(P.length<2)return;
+ var e=function(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]}).slice(0,60)};
+ var la=P.map(function(p){return p[0]}),lo=P.map(function(p){return p[1]}),y0=Math.min.apply(0,la),y1=Math.max.apply(0,la),x0=Math.min.apply(0,lo),x1=Math.max.apply(0,lo),k=Math.cos((y0+y1)/2*Math.PI/180),W=320,H=200,sc=Math.min((W-30)/((x1-x0)*k||1e-6),(H-30)/((y1-y0)||1e-6));
+ var pt=function(p){return [(W-(x1-x0)*k*sc)/2+(p[1]-x0)*k*sc,(H-(y1-y0)*sc)/2+(y1-p[0])*sc]},d=P.map(function(p,i){var c=pt(p);return(i?'L':'M')+c[0].toFixed(1)+' '+c[1].toFixed(1)}).join(' '),s0=pt(P[0]);
+ var by=q.get('b'),n=q.get('n')||'Route',km=q.get('k'),w=q.get('w'),m=q.get('m');
+ document.title=(by?by+' invited you to run':'Run with me')+' · Stryka';
+ document.getElementById('t').textContent=by?e(by)+' invited you to run':'Run with me';
+ document.getElementById('s').textContent='Open this route in Stryka, the free fitness app: GPS runs, 3D workouts, food tracking and groups.';
+ var h='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;border-radius:16px;background:#0F1A1E;display:block;margin-bottom:12px" role="img" aria-label="Route"><path d="'+d+'" fill="none" stroke="#00CBA9" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="'+s0[0].toFixed(1)+'" cy="'+s0[1].toFixed(1)+'" r="6" fill="#fff"/></svg>';
+ h+='<div class="stats"><div><b>'+e(km||'–')+'</b><span>km</span></div>'+(w?'<div><b style="font-size:1rem">'+e(w)+'</b><span>when</span></div>':'')+'</div>'+(m?'<p style="margin:0 0 12px">📍 Meet: '+e(m)+'</p>':'');
+ h='<div class="wkhead"><div class="wkav">🏃</div><div><b>'+e(n)+'</b><br><span style="color:#9AA0AA">'+(by?'shared by '+e(by):'a Stryka route')+'</span></div></div>'+h;
+ var wk=document.getElementById('wk');wk.innerHTML=h;wk.classList.add('on');document.getElementById('play').textContent='Get Stryka free to run it';
+})();
 </script></body></html>
