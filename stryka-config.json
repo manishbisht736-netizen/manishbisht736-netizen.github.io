@@ -1,5 +1,5 @@
 {
-  "paywall": false,
-  "since": "",
+  "paywall": true,
+  "since": "2026-10-29",
   "note": "Stryka premium switch. Set paywall to true and since to the first lock day (YYYY-MM-DD) only after Play/App Store subscriptions work. Trials count from max(install, since)."
 }
