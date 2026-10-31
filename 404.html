@@ -22,8 +22,8 @@ ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:8px;text-align:sta
 <ul><li>Workouts with 3D exercise videos</li><li>GPS runs with loops from your door</li><li>Snap your plate, see the calories (est.)</li><li>Sweat Stories and groups with friends</li></ul>
 <p class="small">Free on Google Play. iPhone coming soon.<br><a href="/privacy.html">Privacy</a> · <a href="mailto:support@buddhabytes.app">support@buddhabytes.app</a></p>
 </main><script>
-(function(){var m=location.pathname.match(/^\/r\/([A-Za-z0-9]{4,16})\/?$/),c=m?m[1].toUpperCase():(new URLSearchParams(location.search).get('c')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
- if(!m&&!c&&!/^\/(r|w)(\/|$)/.test(location.pathname)){document.getElementById('t').textContent='Page not found';document.getElementById('s').innerHTML='This page doesn’t exist. Here’s Stryka instead.'}
+(function(){var m=location.pathname.match(/^\/r\/([A-Za-z0-9]{4,16})\/?$/),c=m?m[1].toUpperCase():(new URLSearchParams(location.search).get('c')||(/^\/p\//.test(location.pathname)?new URLSearchParams(location.search).get('r'):'')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+ if(!m&&!c&&!/^\/(r|w|p)(\/|$)/.test(location.pathname)){document.getElementById('t').textContent='Page not found';document.getElementById('s').innerHTML='This page doesn’t exist. Here’s Stryka instead.'}
  if(c){document.getElementById('codebox').hidden=false;document.getElementById('code').textContent=c;var ref=encodeURIComponent('utm_source=rise_invite&utm_medium=referral&utm_campaign='+c);document.getElementById('play').href='https://play.google.com/store/apps/details?id=com.buddhabytes.rise&referrer='+ref;try{localStorage.setItem('rise_ref',c)}catch(e){}}})();
 
 (function(){var m=location.pathname.match(/^\/w\/([A-Za-z0-9]{6,16})\/?$/);if(!m)return;var K="sb_publishable_jJ7ZgxrXhTQwfZ0VETB63A_8rhs3I5Q",U="https://zzfgrkulgagwdoownfue.supabase.co";
@@ -40,6 +40,14 @@ ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:8px;text-align:sta
   var code=(new URLSearchParams(location.search).get('r')||p.code||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
   var pl=document.getElementById('play');pl.textContent='Do this workout free on Stryka';if(code){document.getElementById('codebox').hidden=false;document.getElementById('code').textContent=code;pl.href='https://play.google.com/store/apps/details?id=com.buddhabytes.rise&referrer='+encodeURIComponent('utm_source=rise_share&utm_medium=workout&utm_campaign='+code+'&utm_content='+m[1])}
  }).catch(function(){document.getElementById('t').textContent='Train with me on Stryka';document.getElementById('s').textContent='This workout link has expired or was removed. Here’s Stryka instead.'})})();
+
+/* shared posts (31 Oct 2026): /p/<id>?r=<code> opens the post in Stryka when it's installed (Android App Link); here,
+   for friends without the app, an invitation to see it there. The post itself isn't shown on the web (it may be for
+   followers only). */
+(function(){if(!/^\/p\/[A-Za-z0-9_-]{4,40}\/?$/.test(location.pathname))return;
+ document.title='See this post on Stryka';document.getElementById('t').textContent='See this post on Stryka';
+ document.getElementById('s').textContent='A friend shared a post from Sweat Stories. Get Stryka free to see it, cheer them on and train together.';
+ document.getElementById('play').textContent='Get Stryka free to see it'})();
 
 /* "Run with me" route invites from the app (19 Oct 2026): /w/route?g=<encoded line>&n=&k=&w=&m=&b= — the route is in the
    link itself, drawn here as a simple line for friends who don't have Stryka yet. */
