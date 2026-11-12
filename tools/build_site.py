@@ -23,28 +23,66 @@ e = html.escape
 
 APPS = [
     dict(
-        slug="rise", name="Stryka", title="Stryka: Fitness & 3D Workouts", kind="Fitness · Food · Focus",
+        slug="rise", name="Stryka", title="Stryka: Workouts & Fitness", kind="Training · Runs · Insights",
         accent="#2DD4BF", accent_text="#0F766E", ink="#06201C", hero="#0B1413",
-        short="Train with 3D exercise videos, track runs and regional food, and find calm with Monk mode.",
-        lead="Workouts with real 3D exercise videos, runs, food tracking with 1,045 regional foods, a health score and calm focus, all in one app. Free to start, made in Dubai for everyone.",
+        play="https://play.google.com/store/apps/details?id=com.buddhabytes.rise",
+        short="Readiness, sleep debt and trends, runs on a 3D map with replay videos, a 3D workout coach, food and calm in one app.",
+        lead="Know when to push with Readiness, see your sleep debt and every trend, run on a 3D map and replay it as a video, and train with a 3D coach. Food and calm are built in. Made in Dubai for everyone.",
         features=[
-            ("barbell", "3D exercise videos", "382 recorded 3D clips across 269 movements, with plans for the gym, home or no equipment at all."),
-            ("person-simple-run", "Runs", "Live pace, distance, splits and laps, plus a calendar of upcoming races near you."),
-            ("bowl-food", "1,045 regional foods", "Gulf and South Asian dishes, barcode scanning and water tracking, with calories and protein at a glance."),
-            ("heartbeat", "Health score", "One easy number for how your week is going. Estimates, never a diagnosis."),
-            ("brain", "Monk mode", "A distraction-free focus timer. Leave the app and your plant waits for you."),
-            ("headphones", "Vibes", "Soundscapes for focus, calm, sleep, the drive home or your workout."),
-            ("users-three", "Sweat Stories & Groups", "Share workouts, cheer friends on and train together in a supportive feed."),
-            ("calendar-check", "A plan that fits", "A weekly calendar that adapts to your goal, level and the days you can train."),
+            ("gauge", "Readiness", "One number each morning from sleep, HRV, resting heart rate and load, compared with your 30-day normal (est.)."),
+            ("bed", "Sleep debt", "The sleep you owe from the last 14 nights, and when you're paying it back."),
+            ("chart-line-up", "Trends & insights", "Week, month, 3-month and year charts for HRV, heart rate, sleep, steps, weight and training."),
+            ("map-trifold", "Runs on a 3D map", "Live GPS with pace, splits and elevation on a tilted 3D street map, plus suggested loops."),
+            ("play-circle", "Run replay video", "Watch your route draw itself on the real map, then share it as a short video."),
+            ("cube", "3D coach", "400+ exercises in recorded 3D video with the working muscles lit and your last weight."),
+            ("camera", "Snap your food", "Photo, barcode or search 1,000+ foods. Calories and macros in seconds (est.)."),
+            ("flower-lotus", "Breathe, focus, rest", "Monk focus mode, guided breathing and real nature soundscapes."),
         ],
-        shots=["Pulse: your day at a glance", "Workout player", "Food photo log", "Monk mode", "Groups", "Run tracking"],
+        shots=["Pulse: Readiness today", "Insights overview", "Live run on a 3D map", "3D coach", "Food diary", "Monk mode"],
+        tour=[
+            ("gauge", "Readiness", "Know when to push",
+             "One Readiness number each morning from your sleep, HRV, resting heart rate and training load, compared with your own 30-day normal. Then one clear thing to do today.",
+             ["Traffic-light dial: green, yellow or red", "Living orbs for fitness level, sleep and physical age",
+              "Tap any number for its trend"], ["shot-1"]),
+            ("bed", "Sleep debt", "See the sleep you owe",
+             "Stryka adds up the sleep you missed over the last 14 nights, with recent nights counting more, and shows when you're paying it back.",
+             ["Sleep debt bank with every short night", "Regularity and weekend shift in plain words",
+              "Nights with no data are skipped, never counted as short"], ["tour-ins-heat"]),
+            ("chart-line-up", "Trends", "Every trend in one place",
+             "Week, month, 3-month and year views for HRV, heart rate, sleep, steps, weight and training, each compared with the weeks before.",
+             ["Fitness, fatigue and form with a race-day forecast", "You vs your normal for every vital",
+              "Patterns explained in plain words, labelled est."], ["tour-ins-vitals", "tour-ins-ff"]),
+            ("clock", "Peak hours", "Find your best time to train",
+             "The energy clock learns from your own sleep, movement and sessions when you tend to perform best.",
+             ["Your daily peak window", "A weekday by time-of-day grid", "Patterns, not proof: always marked est."],
+             ["tour-ins-clock"]),
+            ("map-trifold", "Runs", "Run, walk and ride on a 3D map",
+             "Live GPS on a tilted 3D street map with pace, splits, elevation and auto-pause. Stryka keeps recording with the screen locked, even if the app closes.",
+             ["Suggested loops for the distance you pick", "Lap, lock and live pace on one screen",
+              "All running features are free"], ["shot-3", "tour-run-loop"]),
+            ("play-circle", "Run replay", "Watch your run come back to life",
+             "Replay draws your route on the real map with a glowing dot, km markers and your pace ticking along, then saves it as a short 9:16 video.",
+             ["The start and end of your route are hidden by default", "Share a picture or video to any app on your phone",
+              "Run Studio: your photo, your route, your stats"], ["tour-run-finish", "tour-share-rphoto"]),
+            ("cube", "3D coach", "Every move in 3D video",
+             "400+ exercises shown as recorded 3D videos with the working muscles lit, set timers and your last weight for every lift.",
+             ["My Plan adapts: 30 to 90 minutes, gym or home", "Muscle recovery map and smart swaps",
+              "Personal records, rest timer, supersets and a plate calculator"], ["shot-4"]),
+            ("camera", "Food", "Snap your food",
+             "Snap a meal, scan a barcode or search 1,000+ foods from around the world. Calories, protein, carbs and fat against your daily targets (est.).",
+             ["Water tracking", "Fasting tracker with an optional Ramadan mode", "Meals you didn't log count as unknown, never as zero"],
+             ["shot-5"]),
+            ("flower-lotus", "Mind", "Breathe. Focus. Rest.",
+             "Monk mode for distraction-free focus, guided breathing and real nature soundscapes for focus, study and sleep.",
+             ["Monk, Vibes and breathing are free", "Real recorded nature sounds", "A gentle sleep timer"], ["shot-6"]),
+        ],
         split=("Honest numbers, healthy habits", "Stryka is built to help you show up, not to keep you scrolling.",
-               ["Everything is free during launch", "No fake streak pressure or countdown offers",
+               ["Try every feature free for 7 days, no card needed", "No fake streak pressure or fake countdown offers",
                 "Health numbers are labelled as estimates", "Delete your account and data any time from the app"],
                "rise-2"),
         faq=[
-            ("Is Stryka free?", "Yes. Everything in Stryka is free during launch. If paid plans arrive later, prices will be real and shown clearly in the app before you pay."),
-            ("Does Stryka work with my watch?", "Yes. Stryka reads steps, sleep, heart rate and workouts from Health Connect on Android and Apple Health on iPhone, with your permission. You can also log them yourself."),
+            ("Is Stryka free?", "You can try every feature free for 7 days from install, with no card needed. After that, keep the free plan (all running, this week's and last week's insights, Monk, Vibes and breathing stay free) or subscribe to Stryka Premium in the app. Prices are shown clearly before you pay."),
+            ("Does Stryka work with my watch?", "Yes. On Android, Stryka reads steps, sleep, heart rate, HRV and workouts from Health Connect, with your permission. You can also log them yourself. The iPhone version, with Apple Health, is coming soon."),
             ("Do I need gym equipment?", "No. Pick home or no-equipment plans and Stryka only shows exercises you can do with what you have."),
             ("Is Stryka medical advice?", "No. Stryka is a wellness app. Calories, health score and other numbers are estimates and not medical advice."),
         ],
@@ -265,11 +303,39 @@ def app_page(a):
     st, sp, checks, photo = a["split"]
     checks_html = "".join(f"<li>{ic('seal-check')}<span>{e(c)}</span></li>" for c in checks)
     faq = "".join(f"<details><summary>{e(q)}</summary><p>{e(r)}</p></details>" for q, r in a["faq"])
+    tour_html = ""
+    if a.get("tour"):
+        rows = ""
+        for i, t, h, d, bullets, imgs in a["tour"]:
+            pics = "".join(phone(f"{img}/{s}.webp", f"{a['name']}: {t}") for s in imgs)
+            lis = "".join(f"<li>{ic('seal-check')}<span>{e(b)}</span></li>" for b in bullets)
+            rows += (f'<article class="tour-row reveal"><div class="tour-media n{len(imgs)}">{pics}</div>'
+                     f'<div class="tour-copy"><div class="tour-kicker">{ic(i)} {e(t)}</div><h3>{e(h)}</h3>'
+                     f'<p>{e(d)}</p><ul class="checks">{lis}</ul></div></article>')
+        tour_html = f"""
+<section id="tour" class="alt">
+  <div class="wrap">
+    <div class="section-head center reveal"><h2>Take the tour</h2><p>Real screens from the app. Health numbers are estimates, not medical advice.</p></div>
+    <div class="tour">{rows}</div>
+  </div>
+</section>
+"""
+    if a.get("play"):
+        play_btn = f'<a class="btn btn-primary" href="{a["play"]}" target="_blank" rel="noopener">{ic("google-play-logo")} Get it on Google Play</a>'
+    else:
+        play_btn = f'<span class="btn btn-primary">{ic("google-play-logo")} {PLAY_SOON}</span>'
+    screens_html = "" if tour_html else f"""
+<section id="screens" class="alt">
+  <div class="wrap"><div class="section-head center reveal"><h2>A look inside</h2><p>Real screens from the app.</p></div></div>
+  <div class="shot-strip">{shots}</div>
+</section>
+"""
     legal = "".join(f'<a href="{h}">{ic("lock-simple")} {e(t)}</a>' for t, h in a["legal"])
     legal_block = f'<div class="legal-links">{legal}</div>' if legal else ""
     out = head(f"{a['title']} | Buddha Bytes", a["short"], f"https://buddhabytes.app/{a['slug']}/",
                f"assets/img/photos/{a['slug']}.webp", "../", accent_style(a))
-    out += nav("../", [("Features", "#features"), ("Screens", "#screens"), ("FAQ", "#faq"), ("All apps", "../#apps")])
+    out += nav("../", [("Features", "#features"), ("Tour", "#tour") if a.get("tour") else ("Screens", "#screens"),
+                       ("FAQ", "#faq"), ("All apps", "../#apps")])
     out += f"""
 <header class="photo-hero">
   <img class="bg" src="../assets/img/photos/{a['slug']}.webp" alt="">
@@ -280,8 +346,8 @@ def app_page(a):
       <h1>{e(a['title'])}</h1>
       <p class="lead">{e(a['lead'])}</p>
       <div class="hero-actions">
-        <span class="btn btn-primary">{ic('google-play-logo')} {PLAY_SOON}</span>
-        <a class="btn btn-ghost" href="#features">See what's inside</a>
+        {play_btn}
+        <a class="btn btn-ghost" href="{'#tour' if a.get('tour') else '#features'}">See what's inside</a>
       </div>
     </div>
     <div class="hero-stack" aria-hidden="true">{stack}</div>
@@ -294,12 +360,7 @@ def app_page(a):
     <div class="feature-grid">{feats}</div>
   </div>
 </section>
-
-<section id="screens" class="alt">
-  <div class="wrap"><div class="section-head center reveal"><h2>A look inside</h2><p>Real screens from the app.</p></div></div>
-  <div class="shot-strip">{shots}</div>
-</section>
-
+{tour_html}{screens_html}
 <section>
   <div class="wrap split">
     <div class="reveal">
@@ -339,7 +400,7 @@ def home():
         <img class="bg" src="assets/img/photos/{a['slug']}.webp" alt="" loading="lazy">
         <div class="top"><img src="assets/img/apps/{a['slug']}/icon.png" alt=""><div><h3>{e(a['name'])}</h3><div class="kind">{e(a['kind'])}</div></div></div>
         <p>{e(a['short'])}</p>
-        <span class="tag">{PLAY_SOON}</span>
+        <span class="tag">{'Get it on Google Play' if a.get('play') else PLAY_SOON}</span>
         <div class="peek">{phone(f"assets/img/apps/{a['slug']}/shot-1.webp", a['title'] + ' screenshot')}</div>
         <span class="go" aria-hidden="true">{ic('arrow-right')}</span>
       </a>""" for a in APPS)
@@ -376,7 +437,7 @@ def home():
 
 <section id="apps">
   <div class="wrap">
-    <div class="section-head reveal"><h2>Our apps</h2><p>Each one does one thing well. All are coming soon to Google Play.</p></div>
+    <div class="section-head reveal"><h2>Our apps</h2><p>Each one does one thing well. Stryka is on Google Play; the others are coming soon.</p></div>
     <div class="app-grid">{cards}
     </div>
   </div>

@@ -18,6 +18,7 @@ then rebuild the pages with `python tools/build_site.py`.
 | `assets/img/photos/dailygrowth.webp` | Unsplash `OlexUO10-wM` (Leaves & Macro, sprout in moss) | Unsplash Licence |
 | `assets/img/apps/*/icon.png` | Each app's own icon (Buddha Bytes repos) | Owned by Buddha Bytes |
 | `assets/img/apps/*/shot-*.webp` | Screenshots of the apps themselves (Rise, Unwind, Daily Growth from their repos; NOORA, Kairo, Mauna captured from the local builds) | Owned by Buddha Bytes |
+| `assets/img/apps/rise/shot-*.webp`, `tour-*.webp` | Stryka 1.3.14 screens (12 Nov 2026) from the Stryka repo `store/screenshots-play-1314/src/raw`. Map screens show tiles © MapTiler © OpenStreetMap contributors (ODbL), attributed in the app | Owned by Buddha Bytes; map data ODbL |
 
 Unsplash photos are free for commercial use; credit is optional. Photo URL: `https://unsplash.com/photos/<id>`.
 

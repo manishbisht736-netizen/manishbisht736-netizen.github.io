@@ -9,8 +9,14 @@ from PIL import Image
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LIB = r"C:\Users\user\Documents\Design-Library"
+if not os.path.isdir(LIB):
+    LIB = r"D:\Desktop\Design-Library"
 PHOTOS = r"D:\Desktop\Design-Library\05-Photos"
 HOME = r"C:\Users\user"
+STRYKA = rf"{HOME}\Documents\Codex\2026-10-31\ac\work\stryka"
+STRYKA_RAW = rf"{STRYKA}\store\screenshots-play-1314\src\raw"
+# Stryka feature-tour screens (12 Nov 2026), saved as tour-<name>.webp; rows are defined in build_site.py
+STRYKA_TOUR = ("ins-heat", "ins-vitals", "ins-ff", "ins-clock", "run-loop", "run-finish", "share-rphoto")
 SHOTS_TMP = os.environ.get("SHOTS_DIR", "")  # fresh screenshots of Fastwise/Kairo/Mauna (optional)
 
 IMG = os.path.join(SITE, "assets", "img")
@@ -25,7 +31,7 @@ PHOTO_IDS = {
 }
 
 ICONS = {
-    "rise": rf"{HOME}\rise-claude-code\store\icon-512.png",
+    "rise": rf"{STRYKA}\store\icon-512.png",
     "fastwise": rf"{HOME}\fasting-app\assets\icon-only.png",
     "kairo": rf"{HOME}\kairo-app\store\icon-512.png",
     "mauna": rf"{HOME}\mauna-app\store\icon-512.png",
@@ -34,8 +40,7 @@ ICONS = {
 }
 
 SCREENS = {
-    "rise": [rf"{HOME}\rise-claude-code\docs\screens\{n}.png" for n in
-             ("05-train-today", "09-workout-player", "12-food-snap", "14-mind-monk", "11-sweat-stories", "10-run-map")],
+    "rise": [rf"{STRYKA_RAW}\{n}.jpg" for n in ("pulse", "ins-ov", "run-live", "player-plank", "food", "monk")],
     "unwind": [rf"{HOME}\sukoon-app\store\screenshots\{n}.png" for n in
                ("01-now", "04-breathe", "03-relax", "06-sleep-story", "07-garden")],
     "dailygrowth": [rf"{HOME}\habit-tracker-app\docs\screens\{n}.png" for n in
@@ -49,7 +54,7 @@ ICON_NAMES = """barbell person-simple-run bowl-food camera heartbeat brain headp
 hourglass-medium shield-check calendar-check cooking-pot seal-check timer kanban envelope-simple list-checks
 sun-horizon wind house-simple palette game-controller lock-simple translate flower-lotus leaf music-notes plant
 compass chart-bar sparkle puzzle-piece moon lifebuoy hand-heart arrow-right google-play-logo heart users
-book-open-text trend-up feather arrow-left""".split()
+book-open-text trend-up feather arrow-left bed chart-line-up clock cube gauge map-trifold play-circle share-network""".split()
 
 
 def save_webp(src, dst, width, quality=78):
@@ -74,6 +79,8 @@ def main():
             os.remove(old)
         for i, src in enumerate(files, 1):
             save_webp(src, os.path.join(out, f"shot-{i}.webp"), 540, 80)
+    for n in STRYKA_TOUR:
+        save_webp(os.path.join(STRYKA_RAW, f"{n}.jpg"), os.path.join(IMG, "apps", "rise", f"tour-{n}.webp"), 540, 82)
     fonts = os.path.join(SITE, "assets", "fonts")
     os.makedirs(fonts, exist_ok=True)
     for fam, weights in (("fraunces", (400, 600)), ("plus-jakarta-sans", (400, 500, 700, 800))):
