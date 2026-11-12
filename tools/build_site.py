@@ -25,7 +25,7 @@ APPS = [
     dict(
         slug="rise", name="Stryka", title="Stryka: Workouts & Fitness", kind="Training · Runs · Insights",
         accent="#2DD4BF", accent_text="#0F766E", ink="#06201C", hero="#0B1413",
-        play="https://play.google.com/store/apps/details?id=com.buddhabytes.rise",
+        play="https://play.google.com/store/apps/details?id=com.buddhabytes.rise", immersive=True,
         short="Readiness, sleep debt and trends, runs on a 3D map with replay videos, a 3D workout coach, food and calm in one app.",
         lead="Know when to push with Readiness, see your sleep debt and every trend, run on a 3D map and replay it as a video, and train with a 3D coach. Food and calm are built in. Made in Dubai for everyone.",
         features=[
@@ -289,6 +289,13 @@ def accent_style(a):
 
 
 def app_page(a):
+    if a.get("immersive"):  # Stryka: 3D/animated page in its own file (tools/stryka_page.py)
+        import sys
+        import stryka_page
+        os.makedirs(os.path.join(SITE, a["slug"]), exist_ok=True)
+        with open(os.path.join(SITE, a["slug"], "index.html"), "w", encoding="utf-8", newline="\n") as f:
+            f.write(stryka_page.render(a, sys.modules[__name__]))
+        return
     n = shot_count(a["slug"])
     caps = a["shots"] or a.get("captions") or [f"{a['name']} screen {i}" for i in range(1, n + 1)]
     img = f"../assets/img/apps/{a['slug']}"
