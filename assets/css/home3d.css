@@ -97,6 +97,15 @@ h2{font-size:clamp(2.6rem,6.6vw,6.4rem)}
 .vis.n1 .v1{left:50%;top:50%;width:auto;height:min(82vh,860px);max-height:none;
   transform:translate3d(-50%,calc(-50% + (var(--p,.5) - .5)*-70px),40px) rotateY(calc(-10deg + var(--mx,0)*10deg)) rotateX(calc(3deg - var(--my,0)*6deg))}
 .ch-r .vis.n1 .v1{left:50%;right:auto;transform:translate3d(-50%,calc(-50% + (var(--p,.5) - .5)*-70px),40px) rotateY(calc(10deg + var(--mx,0)*10deg)) rotateX(calc(3deg - var(--my,0)*6deg))}
+/* stacked variant: wide, short cards sit one under the other, still tilted in 3D */
+.vis.stack{display:flex;flex-direction:column;justify-content:center;gap:26px}
+.vis.stack .vc{position:relative;inset:auto;width:min(680px,100%);max-height:none}
+.vis.stack .v2{max-height:56vh;margin-left:8%;width:min(620px,92%)}
+.ch-r .vis.stack .v2{margin-left:0}
+.vis.stack .v1{transform:translate3d(calc(var(--mx,0)*12px),calc((var(--p,.5) - .5)*-50px),40px) rotateY(calc(-7deg + var(--mx,0)*7deg)) rotateX(calc(3deg - var(--my,0)*5deg))}
+.vis.stack .v2{transform:translate3d(calc(var(--mx,0)*-8px),calc((var(--p,.5) - .5)*60px),0) rotateY(calc(-4deg + var(--mx,0)*5deg)) rotateX(calc(2deg - var(--my,0)*4deg))}
+.ch-r .vis.stack .v1{transform:translate3d(calc(var(--mx,0)*12px),calc((var(--p,.5) - .5)*-50px),40px) rotateY(calc(7deg + var(--mx,0)*7deg)) rotateX(calc(3deg - var(--my,0)*5deg))}
+.ch-r .vis.stack .v2{transform:translate3d(calc(var(--mx,0)*-8px),calc((var(--p,.5) - .5)*60px),0) rotateY(calc(4deg + var(--mx,0)*5deg)) rotateX(calc(2deg - var(--my,0)*4deg))}
 .js .vis.rv{opacity:1;transform:none}
 .js .vis.rv .vc{opacity:0}
 .js .vis.rv.in .vc{opacity:1}

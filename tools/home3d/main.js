@@ -138,6 +138,7 @@ function start() {
     const mob = innerWidth < 760, side = s.side === 'l' ? -1 : 1;
     if (s.away) return { x: 0, y: 4.2, ry: 0, rx: .3, rz: 0, s: .8 };
     if (mob) return { x: 0, y: 1.24, ry: side * -.28 + (p - .5) * .5, rx: .08, rz: 0, s: .55 };
+    if (s.el.classList.contains('hero')) return { x: 1.05, y: -.05 - (p - .5) * .2, ry: -.38 + (p - .5) * .4, rx: .05, rz: .03, s: 1.62 };
     return { x: side * 1.32, y: (p - .5) * -.25, ry: side * -.42 + (p - .5) * .45, rx: .06 - (p - .5) * .1, rz: side * .04, s: 1 };
   };
   let tops = [];

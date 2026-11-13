@@ -58,9 +58,11 @@ VIS = {
     "Runs": [("v", "run", "shot-3", "540/860")],
     "Run replay": [("v", "replay", "tour-run-finish", "540/900")],
     "3D coach": [("v", "coach", "shot-4", "540/760")],
-    "Food": [("c", "food-macros"), ("c", "food-meals")],
+    "Food": [("c", "food-meals")],
     "Mind": [("i", "shot-6", "540/900")],
 }
+# chapters whose cards are wide and short: stack them (no overlap)
+STACK = {"Readiness", "Food"}
 # "The analysis" wall: more insight cards, captions say what each one is
 WALL = [("ins-today", "Readiness, explained point by point"), ("ff", "Fitness, fatigue & form with a race forecast"),
         ("stands-out", "What stands out this week"), ("tiles", "Today's vitals vs your 30-day normal"),
@@ -111,7 +113,7 @@ def build():
     <p class="body rv">{e(text)}</p>
     <dl class="spec rv"><dt class="mono">{e(sl.upper())}</dt><dd>{e(sv)}</dd></dl>
   </div>
-  <div class="vis rv n{len(VIS[lab])}">{vis}</div>
+  <div class="vis rv n{len(VIS[lab])}{' stack' if lab in STACK else ''}">{vis}</div>
 </section>''')
     wall = "".join(f'<figure class="wc rv"><figcaption class="mono">{e(c)}</figcaption><img src="{CARDS}/{n}.webp" alt="Stryka: {e(c)}" loading="lazy" decoding="async"></figure>' for n, c in WALL)
     specs = "".join(f'<div class="sc rv"><p class="mono">{e(a.upper())}</p><b>{e(b)}</b><span>{e(c)}</span></div>' for a, b, c in SPECS)
