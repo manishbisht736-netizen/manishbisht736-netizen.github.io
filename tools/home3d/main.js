@@ -33,6 +33,26 @@ $$('.split').forEach(el => {
 const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target) } }), { threshold: .25 });
 $$('.rv').forEach(el => io.observe(el));
 
+/* ---------- big feature visuals: scroll drift (--p per chapter), mouse tilt (--mx/--my), clips play while visible ---------- */
+{
+  const chs = $$('.ch, .analysis'); let geo = [];
+  const measureCh = () => { geo = chs.map(el => { const r = el.getBoundingClientRect(); return [r.top + scrollY, r.height] }) };
+  const drift = () => { const y = scrollY, h = innerHeight;
+    chs.forEach((el, i) => { const [t, hh] = geo[i] || [0, 1]; if (y + h < t || y > t + hh) return;
+      el.style.setProperty('--p', Math.min(1, Math.max(0, (y + h - t) / (hh + h))).toFixed(3)) }) };
+  let q = false; const tick = () => { if (!q) { q = true; requestAnimationFrame(() => { q = false; drift() }) } };
+  measureCh(); drift(); addEventListener('resize', () => { measureCh(); drift() }); addEventListener('load', () => { measureCh(); drift() });
+  if (!RM) addEventListener('scroll', tick, { passive: true });
+  if (!RM) { let mq = false, mx = 0, my = 0;
+    addEventListener('pointermove', ev => { if (ev.pointerType !== 'mouse') return; mx = ev.clientX / innerWidth - .5; my = ev.clientY / innerHeight - .5;
+      if (!mq) { mq = true; requestAnimationFrame(() => { mq = false; root.style.setProperty('--mx', mx.toFixed(3)); root.style.setProperty('--my', my.toFixed(3)) }) } }, { passive: true }) }
+  const lv = $$('video.lv');
+  const vio = new IntersectionObserver(es => es.forEach(x => { const v = x.target;
+    if (x.isIntersecting && !RM) { if (!v.src) v.src = v.dataset.src; const pr = v.play(); if (pr) pr.catch(() => {}) } else v.pause() }), { threshold: .25 });
+  lv.forEach(v => vio.observe(v));
+  document.addEventListener('visibilitychange', () => { if (document.hidden) lv.forEach(v => v.pause()) });
+}
+
 /* ---------- 3D ---------- */
 const canvas = $('#gl');
 let renderer;

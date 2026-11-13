@@ -17,7 +17,7 @@ SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 H = os.path.join(SITE, "tools", "home3d")
 e = html.escape
 PLAY = "https://play.google.com/store/apps/details?id=com.buddhabytes.rise"
-IMG, VID = "assets/img/apps/rise", "assets/video/stryka"
+IMG, VID, CARDS = "assets/img/apps/rise", "assets/video/stryka", "assets/img/stryka-cards"
 
 # (index label, title, text, spec label, spec value, screen, clip or None, phone side)
 CHAPTERS = [
@@ -49,6 +49,22 @@ CHAPTERS = [
      "Monk mode for distraction-free focus, guided breathing and real recorded nature sounds for focus, study and sleep.",
      "Price", "Free", "shot-6", None, "l"),
 ]
+# big visuals per chapter: ("c", card) · ("v", clip, poster, crop aspect) · ("i", screen, crop aspect)
+VIS = {
+    "Readiness": [("c", "readiness"), ("c", "orbs")],
+    "Sleep debt": [("c", "sleep-debt"), ("c", "sleep-stages")],
+    "Trends": [("c", "trends"), ("c", "vs-normal")],
+    "Peak hours": [("c", "energy-clock"), ("c", "perform-best")],
+    "Runs": [("v", "run", "shot-3", "540/860")],
+    "Run replay": [("v", "replay", "tour-run-finish", "540/900")],
+    "3D coach": [("v", "coach", "shot-4", "540/760")],
+    "Food": [("c", "food-macros"), ("c", "food-meals")],
+    "Mind": [("i", "shot-6", "540/900")],
+}
+# "The analysis" wall: more insight cards, captions say what each one is
+WALL = [("ins-today", "Readiness, explained point by point"), ("ff", "Fitness, fatigue & form with a race forecast"),
+        ("stands-out", "What stands out this week"), ("tiles", "Today's vitals vs your 30-day normal"),
+        ("heat", "Your aerobic engine in the heat"), ("week", "Weeks on target, not streaks")]
 SPECS = [
     ("Works with", "Health Connect", "Steps, sleep, heart rate, HRV and workouts, with your permission"),
     ("Languages", "EN · العربية · हिन्दी", "Full right-to-left Arabic"),
@@ -79,23 +95,31 @@ def build():
     m = re.search(r'<path transform="([^"]+)"[^>]*\sd="([^"]+)"', mark)
     play_icon = open(os.path.join(SITE, "assets", "icons", "google-play-logo.svg"), encoding="utf-8").read().replace("<svg ", '<svg class="ic" aria-hidden="true" ', 1)
     chs = []
+    def fig(v, k, lab):
+        if v[0] == "c":
+            return f'<figure class="vc v{k}"><img src="{CARDS}/{v[1]}.webp" alt="Stryka: {e(lab)}" loading="lazy" decoding="async"></figure>'
+        if v[0] == "v":
+            return (f'<figure class="vc v{k} vv" style="aspect-ratio:{v[3]}"><video class="lv" data-src="{VID}/{v[1]}.webm" poster="{IMG}/{v[2]}.webp" '
+                    f'muted loop playsinline preload="none" aria-label="Stryka: {e(lab)}"></video></figure>')
+        return f'<figure class="vc v{k} vv" style="aspect-ratio:{v[2]}"><img src="{IMG}/{v[1]}.webp" alt="Stryka: {e(lab)}" loading="lazy"></figure>'
     for n, (lab, title, text, sl, sv, scr, vid, side) in enumerate(CHAPTERS, 1):
-        v = f' data-vid="{VID}/{vid}.webm"' if vid else ""
-        chs.append(f'''<section class="ch {'ch-l' if side == 'r' else 'ch-r'}" data-scr="{IMG}/{scr}.webp"{v} data-side="{side}">
+        vis = "".join(fig(v, k, lab) for k, v in enumerate(VIS[lab], 1))
+        chs.append(f'''<section class="ch {'ch-l' if side == 'r' else 'ch-r'}" data-scr="{IMG}/shot-1.webp" data-away="1">
   <div class="ch-in">
     <p class="mono kicker rv">[ {n:02d} / {len(CHAPTERS):02d} ] {e(lab.upper())}</p>
     <h2 class="split rv">{e(title)}</h2>
     <p class="body rv">{e(text)}</p>
     <dl class="spec rv"><dt class="mono">{e(sl.upper())}</dt><dd>{e(sv)}</dd></dl>
   </div>
-  <img class="fb" src="{IMG}/{scr}.webp" alt="Stryka: {e(lab)}" loading="lazy">
+  <div class="vis rv n{len(VIS[lab])}">{vis}</div>
 </section>''')
+    wall = "".join(f'<figure class="wc rv"><figcaption class="mono">{e(c)}</figcaption><img src="{CARDS}/{n}.webp" alt="Stryka: {e(c)}" loading="lazy" decoding="async"></figure>' for n, c in WALL)
     specs = "".join(f'<div class="sc rv"><p class="mono">{e(a.upper())}</p><b>{e(b)}</b><span>{e(c)}</span></div>' for a, b, c in SPECS)
     li = lambda xs: "".join(f"<li>{e(x)}</li>" for x in xs)
     faq = "".join(f'<details class="rv"><summary>{e(q)}</summary><p>{e(a)}</p></details>' for q, a in FAQ)
     out = (t.replace("__MARK_TRANSFORM__", m.group(1)).replace("__MARK_D__", m.group(2)).replace("__PLAY_ICON__", play_icon)
             .replace("__PLAY__", PLAY).replace("__CHAPTERS__", "\n".join(chs)).replace("__SPECS__", specs)
-            .replace("__FREE__", li(FREE)).replace("__PRO__", li(PRO)).replace("__FAQ__", faq))
+            .replace("__FREE__", li(FREE)).replace("__PRO__", li(PRO)).replace("__FAQ__", faq).replace("__WALL__", wall))
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(out)
     # /rise/ was Stryka's page: send it to the new home (store listings and old links keep working)
