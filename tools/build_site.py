@@ -481,7 +481,10 @@ def home():
 
 
 if __name__ == "__main__":
+    # 13 Nov 2026 (owner): the site shows only Stryka. The home page and /rise/ come from tools/build_home3d.py;
+    # this script now only refreshes the other apps' old (unlinked) landing pages. home() is kept for reference.
+    n = 0
     for a in APPS:
-        app_page(a)
-    home()
-    print("built", len(APPS) + 1, "pages")
+        if not a.get("immersive"):
+            app_page(a); n += 1
+    print("built", n, "unlinked app pages (home: python tools/build_home3d.py)")

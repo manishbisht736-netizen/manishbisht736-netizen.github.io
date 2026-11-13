@@ -3,131 +3,183 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Buddha Bytes | Calm, honest apps for everyday life</title>
-<meta name="description" content="Buddha Bytes is an independent app studio in Dubai making calm, honest apps: Stryka, Fastwise, Kairo, Mauna, Unwind and Daily Growth.">
+<title>Stryka: Workouts &amp; Fitness | Buddha Bytes</title>
+<meta name="description" content="Stryka: Readiness, sleep debt and trends, runs on a 3D map with replay videos, a 3D workout coach, food and calm in one app. On Google Play.">
 <link rel="canonical" href="https://buddhabytes.app/">
-<link rel="icon" href="assets/img/bb-logo.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/stryka-mark.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Buddha Bytes | Calm, honest apps for everyday life">
-<meta property="og:description" content="Buddha Bytes is an independent app studio in Dubai making calm, honest apps: Stryka, Fastwise, Kairo, Mauna, Unwind and Daily Growth.">
+<meta property="og:title" content="Stryka: Workouts &amp; Fitness">
+<meta property="og:description" content="Know when to push. See the sleep you owe. Run on a 3D map. Train with a 3D coach.">
 <meta property="og:url" content="https://buddhabytes.app/">
-<meta property="og:image" content="https://buddhabytes.app/assets/img/photos/home.webp">
+<meta property="og:image" content="https://buddhabytes.app/assets/img/photos/rise.webp">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="assets/fonts/fraunces-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css">
-<script>document.documentElement.classList.add("js")</script>
+<meta name="theme-color" content="#050909">
+<link rel="preload" href="assets/fonts/space-grotesk-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/home3d.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-<nav class="site-nav">
-  <div class="wrap">
-    <a class="brand" href="./"><img src="assets/img/bb-logo.svg" alt=""> Buddha Bytes</a>
-    <div class="nav-links"><a href="#apps">Apps</a><a href="#approach">Approach</a><a href="#about">About</a><a href="mailto:support@buddhabytes.app" class="nav-cta">Contact</a></div>
-  </div>
-</nav>
+<canvas id="gl" aria-hidden="true"></canvas>
 
-<header class="photo-hero">
-  <img class="bg" src="assets/img/photos/home.webp" alt="">
-  <div class="wrap">
-    <div>
-      <div class="eyebrow">An independent app studio · Dubai</div>
-      <h1>Calm, honest apps for everyday life</h1>
-      <p class="lead">Six apps that help you move, eat, focus, rest and grow a little better, without ads, dark patterns or noise.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#apps">Explore our apps <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128l-72,72V56Z" opacity="0.2"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></a>
-        <a class="btn btn-ghost" href="#approach">Our approach</a>
-      </div>
-    </div>
-    <div class="hero-stack" aria-hidden="true"><div class="phone"><img src="assets/img/apps/unwind/shot-1.webp" alt=""></div><div class="phone"><img src="assets/img/apps/rise/shot-1.webp" alt=""></div><div class="phone"><img src="assets/img/apps/dailygrowth/shot-1.webp" alt=""></div></div>
-  </div>
+<div class="ld" aria-hidden="true">
+  <svg class="ld-draw" viewBox="0 0 1000 1000">
+    <circle class="g" cx="500" cy="500" r="420" pathLength="1"/>
+    <path class="g" d="M500 40V960M40 500H960" pathLength="1"/>
+    <circle class="g g2" cx="500" cy="500" r="250" pathLength="1"/>
+    <path class="mk" transform="translate(-10.47,232.56) scale(0.24660)" d="M2311.0,2075.8 C2302.9,2070.3 2302.7,2069.3 2299.0,2007.5 C2296.6,1968.3 2294.4,1948.4 2288.4,1909.6 C2283.6,1878.4 2279.7,1845.4 2278.0,1821.5 C2277.4,1813.2 2276.8,1805.4 2276.5,1804.0 C2276.3,1802.6 2275.6,1795.9 2275.0,1789.0 C2274.4,1782.1 2273.1,1768.8 2272.1,1759.5 C2271.0,1750.2 2269.7,1736.8 2269.1,1729.8 C2268.5,1722.8 2266.9,1711.8 2265.5,1705.3 C2260.9,1684.0 2259.0,1669.8 2258.0,1649.5 C2256.5,1619.5 2255.0,1593.7 2254.0,1582.0 C2253.4,1576.2 2251.9,1556.0 2250.5,1537.0 C2247.8,1498.9 2247.2,1493.5 2242.9,1471.0 C2239.2,1451.4 2236.8,1432.7 2233.6,1398.0 C2228.8,1346.9 2227.9,1339.6 2223.5,1316.5 C2216.0,1277.5 2213.8,1258.6 2210.0,1202.5 C2207.7,1169.2 2205.6,1152.5 2200.4,1128.0 C2195.9,1106.7 2193.6,1091.3 2190.5,1060.5 C2187.3,1029.4 2186.0,1021.3 2180.6,997.5 C2178.2,987.0 2175.3,973.4 2174.1,967.1 C2170.6,948.8 2166.0,942.3 2159.2,946.0 C2156.0,947.8 2139.1,981.1 2131.4,1000.5 C2128.9,1007.1 2123.9,1017.7 2120.4,1024.0 C2113.8,1036.0 2112.1,1040.1 2107.1,1056.3 C2105.4,1061.6 2101.1,1072.2 2097.6,1079.8 C2093.6,1088.2 2089.7,1098.5 2087.5,1106.4 C2085.1,1115.2 2081.3,1124.8 2076.1,1135.9 C2071.8,1145.0 2066.6,1157.6 2064.6,1163.8 C2062.6,1170.0 2058.5,1180.1 2055.6,1186.3 C2050.2,1197.9 2046.8,1207.2 2043.0,1221.5 C2041.8,1225.9 2038.0,1235.6 2034.5,1243.0 C2031.1,1250.4 2026.4,1262.5 2024.1,1269.8 C2021.7,1277.4 2016.9,1289.1 2013.0,1297.2 C2009.1,1304.9 2004.4,1316.3 2002.5,1322.5 C2000.5,1328.7 1996.1,1339.3 1992.6,1346.1 C1989.1,1352.9 1984.1,1364.6 1981.5,1372.0 C1978.9,1379.4 1973.8,1391.3 1970.0,1398.5 C1966.2,1405.7 1961.1,1416.8 1958.6,1423.3 C1956.0,1429.7 1951.3,1439.7 1948.1,1445.5 C1944.9,1451.3 1940.1,1462.0 1937.5,1469.3 C1934.9,1476.6 1930.4,1487.1 1927.4,1492.6 C1924.5,1498.2 1919.9,1508.4 1917.2,1515.1 C1914.5,1521.9 1909.2,1533.6 1905.4,1541.0 C1901.6,1548.4 1896.3,1560.8 1893.6,1568.5 C1881.1,1604.9 1865.6,1618.7 1852.2,1605.2 C1846.9,1599.9 1833.8,1577.3 1827.9,1563.4 C1825.2,1556.9 1820.4,1547.1 1817.4,1541.8 C1814.3,1536.5 1809.7,1526.9 1807.0,1520.5 C1804.3,1514.1 1799.4,1504.3 1796.1,1498.7 C1792.8,1493.1 1787.6,1483.1 1784.5,1476.6 C1781.4,1470.1 1777.3,1462.3 1775.5,1459.4 C1771.2,1452.8 1767.1,1444.5 1761.9,1432.7 C1759.7,1427.6 1755.5,1419.2 1752.6,1414.0 C1749.6,1408.8 1744.7,1398.9 1741.6,1392.1 C1738.6,1385.4 1733.7,1375.7 1730.7,1370.7 C1727.7,1365.6 1723.7,1357.5 1721.9,1352.5 C1720.0,1347.6 1714.8,1336.0 1710.2,1326.7 C1705.7,1317.5 1700.4,1305.8 1698.4,1300.7 C1696.5,1295.6 1692.3,1286.8 1689.2,1281.0 C1681.9,1267.7 1680.9,1265.3 1676.0,1249.9 C1671.4,1235.4 1667.0,1228.0 1658.6,1220.3 C1650.2,1212.6 1645.3,1211.4 1629.7,1213.0 C1620.9,1213.9 1604.2,1214.1 1565.6,1213.6 C1535.9,1213.2 1478.0,1213.5 1431.0,1214.2 C1377.2,1215.1 1327.9,1215.2 1289.5,1214.7 C1257.0,1214.3 1211.1,1213.8 1187.4,1213.7 C1144.3,1213.4 1144.3,1213.4 1138.7,1210.6 C1131.8,1207.3 1127.4,1201.9 1124.9,1194.0 C1123.2,1188.6 1123.1,1182.3 1122.9,1105.8 C1122.6,1012.1 1122.2,1016.4 1130.5,1007.2 C1139.7,997.0 1132.9,997.7 1226.5,997.5 C1271.6,997.4 1330.3,996.8 1357.0,996.1 C1400.7,994.9 1433.8,995.0 1545.0,996.3 C1557.3,996.5 1558.9,996.3 1563.2,994.2 C1572.7,989.5 1583.2,978.0 1593.5,961.0 C1596.7,955.8 1601.2,949.0 1603.5,945.9 C1605.9,942.9 1610.9,935.0 1614.5,928.4 C1618.2,921.9 1623.6,913.1 1626.5,908.9 C1629.5,904.7 1633.7,898.2 1636.0,894.4 C1638.3,890.6 1643.1,883.7 1646.5,879.0 C1650.0,874.3 1654.5,867.6 1656.5,864.0 C1658.6,860.4 1663.3,853.2 1667.1,848.0 C1670.8,842.8 1676.5,833.9 1679.9,828.2 C1691.6,808.4 1703.0,795.8 1710.6,794.4 C1722.5,792.2 1734.9,807.9 1745.5,839.0 C1748.0,846.4 1753.2,859.0 1757.0,867.0 C1760.8,875.0 1765.5,886.7 1767.6,893.0 C1769.6,899.3 1773.9,910.1 1777.2,917.0 C1785.2,933.6 1785.3,934.1 1790.0,952.0 C1792.4,961.3 1795.9,971.5 1798.7,977.5 C1801.2,983.0 1806.1,995.6 1809.5,1005.5 C1812.9,1015.4 1818.3,1028.8 1821.4,1035.2 C1824.5,1041.6 1829.5,1054.3 1832.5,1063.4 C1838.5,1081.7 1841.2,1087.2 1846.9,1092.3 C1853.5,1098.3 1859.3,1098.4 1864.7,1092.7 C1868.8,1088.4 1869.4,1087.0 1873.0,1073.9 C1874.8,1067.6 1878.8,1055.7 1882.1,1047.4 C1885.3,1039.1 1889.3,1027.2 1891.0,1020.9 C1895.5,1004.3 1896.7,1000.7 1902.3,988.5 C1905.1,982.5 1909.9,969.9 1913.1,960.5 C1916.2,951.1 1921.3,937.8 1924.3,930.9 C1927.4,924.0 1931.7,911.8 1934.0,903.9 C1936.7,894.4 1940.4,884.6 1945.0,874.9 C1949.1,866.3 1953.6,854.6 1956.1,846.4 C1958.4,838.8 1962.5,827.5 1965.3,821.5 C1968.1,815.5 1973.1,802.2 1976.5,792.0 C1979.9,781.8 1985.3,768.1 1988.5,761.5 C1995.5,746.8 1995.3,747.4 1999.6,732.6 C2001.6,725.9 2006.0,713.7 2009.6,705.4 C2013.1,697.1 2017.4,684.9 2019.1,678.4 C2023.5,661.0 2024.6,657.9 2031.5,642.5 C2034.9,634.8 2039.4,622.7 2041.4,615.7 C2043.4,608.4 2047.7,597.0 2051.3,589.2 C2054.8,581.7 2059.4,570.3 2061.5,564.0 C2063.5,557.7 2068.5,545.5 2072.5,537.0 C2076.6,528.5 2081.9,515.4 2084.5,508.0 C2087.0,500.6 2091.8,488.6 2095.0,481.3 C2098.3,473.9 2103.1,461.2 2105.6,452.9 C2108.1,444.6 2112.8,432.1 2116.0,425.0 C2119.2,417.9 2123.1,408.2 2124.5,403.3 C2130.8,382.5 2132.5,377.8 2138.0,365.0 C2141.2,357.6 2145.7,344.9 2147.9,336.7 C2150.5,327.4 2154.2,317.2 2157.9,309.1 C2161.2,302.0 2165.3,291.6 2167.0,285.9 C2173.2,265.3 2174.2,262.5 2179.9,250.1 C2183.1,243.2 2187.4,232.3 2189.5,226.0 C2191.6,219.7 2196.8,207.5 2201.0,199.0 C2205.7,189.7 2210.6,177.8 2213.3,169.3 C2215.9,161.5 2220.2,150.0 2223.1,143.8 C2225.9,137.6 2229.7,126.7 2231.6,119.7 C2233.5,112.6 2235.5,105.9 2236.1,104.7 C2241.9,93.5 2252.2,89.2 2261.1,94.2 C2269.7,99.0 2271.7,105.1 2275.0,137.5 C2277.3,160.4 2280.8,185.7 2284.6,207.5 C2285.9,215.2 2288.6,230.5 2290.5,241.5 C2293.9,261.1 2298.9,297.1 2301.0,318.0 C2303.2,339.7 2309.2,383.0 2312.0,397.5 C2316.8,422.6 2317.3,427.5 2319.5,476.5 C2321.1,511.0 2320.8,517.9 2316.9,541.5 C2314.1,558.9 2314.2,562.9 2318.0,571.9 C2323.1,584.2 2330.5,616.6 2334.0,641.5 C2336.0,655.4 2337.8,661.5 2343.4,673.2 C2352.4,691.6 2355.3,704.1 2359.0,739.0 C2362.1,769.0 2367.5,797.4 2374.1,818.0 C2380.8,838.9 2382.7,850.1 2386.5,889.0 C2388.6,910.8 2391.1,924.7 2396.0,941.9 C2403.2,967.0 2404.6,975.1 2409.0,1020.9 C2411.6,1046.9 2414.4,1064.4 2420.9,1094.5 C2426.6,1120.7 2428.4,1133.3 2430.0,1157.5 C2431.8,1184.7 2433.5,1192.3 2438.5,1195.6 C2442.0,1197.9 2445.4,1196.4 2451.5,1189.9 C2458.6,1182.2 2463.0,1172.8 2467.5,1156.0 C2470.2,1146.0 2473.2,1138.2 2479.0,1126.0 C2483.3,1116.9 2488.5,1105.2 2490.5,1100.0 C2492.5,1094.8 2496.4,1086.3 2499.1,1081.2 C2502.1,1075.6 2506.4,1064.9 2509.9,1054.2 C2513.2,1044.4 2518.1,1031.7 2521.0,1026.0 C2523.9,1020.2 2528.7,1008.2 2531.6,999.2 C2534.6,990.3 2539.7,977.6 2543.0,971.0 C2546.3,964.4 2551.2,952.4 2553.9,944.3 C2556.6,936.1 2561.5,924.0 2564.8,917.3 C2568.1,910.5 2572.7,899.1 2575.0,892.0 C2577.2,884.8 2581.8,873.2 2585.1,866.2 C2588.5,859.2 2592.7,849.6 2594.5,844.9 C2601.3,827.4 2608.1,816.5 2617.6,808.1 C2630.8,796.5 2639.8,803.7 2662.3,844.1 C2666.4,851.5 2672.3,861.3 2675.5,865.9 C2678.6,870.6 2682.8,877.5 2684.7,881.4 C2686.7,885.3 2690.9,892.3 2694.0,897.1 C2697.2,901.8 2702.3,910.1 2705.3,915.6 C2708.3,921.0 2713.3,929.5 2716.4,934.4 C2719.5,939.4 2724.5,948.5 2727.5,954.8 C2740.3,981.3 2751.4,993.5 2766.5,997.5 C2775.7,999.9 2827.8,999.5 2973.9,996.1 C2992.3,995.7 3009.3,995.7 3011.7,996.1 C3022.1,998.1 3029.4,1004.0 3034.7,1014.8 L3038.5,1022.4L3038.4,1079.0 C3038.4,1144.3 3036.0,1186.5 3031.9,1197.5 C3029.1,1204.9 3024.5,1210.8 3018.5,1214.5 C3013.7,1217.4 3013.4,1217.5 3001.1,1217.4 C2942.5,1216.7 2859.4,1217.0 2809.8,1218.0 C2760.0,1219.0 2746.9,1219.0 2731.3,1217.9 C2699.6,1215.6 2686.7,1215.9 2679.8,1219.3 C2671.7,1223.3 2666.1,1230.0 2661.0,1241.7 C2658.6,1247.1 2654.3,1256.2 2651.3,1262.0 C2648.3,1267.7 2644.3,1277.6 2642.4,1284.0 C2640.4,1290.3 2635.5,1302.2 2631.5,1310.5 C2627.5,1318.8 2622.4,1331.2 2620.1,1338.2 C2617.9,1345.2 2613.3,1356.4 2609.9,1363.1 C2606.6,1369.9 2601.6,1382.1 2598.8,1390.4 C2596.1,1398.7 2591.0,1411.6 2587.5,1419.0 C2584.0,1426.4 2579.8,1437.5 2578.1,1443.5 C2574.8,1455.4 2572.7,1461.0 2565.7,1476.5 C2563.3,1482.0 2559.4,1493.2 2557.1,1501.5 C2554.8,1509.8 2550.0,1523.3 2546.4,1531.7 C2542.6,1540.7 2538.4,1552.8 2536.1,1561.7 C2533.9,1569.8 2530.6,1580.1 2528.7,1584.5 C2526.8,1588.9 2523.6,1596.1 2521.7,1600.6 C2519.8,1605.0 2516.8,1613.6 2515.1,1619.7 C2511.5,1632.4 2508.6,1639.8 2502.6,1651.9 C2500.2,1656.6 2496.1,1666.6 2493.5,1674.0 C2490.9,1681.4 2485.5,1693.9 2481.5,1701.7 C2477.4,1709.5 2472.5,1721.0 2470.5,1727.2 C2468.5,1733.4 2463.8,1745.0 2460.0,1753.0 C2456.2,1761.0 2451.5,1772.9 2449.4,1779.5 C2447.4,1786.1 2442.7,1798.0 2438.9,1806.0 C2435.2,1814.0 2430.5,1826.0 2428.5,1832.8 C2424.8,1845.4 2420.8,1855.6 2415.1,1866.8 C2413.3,1870.3 2409.9,1879.3 2407.4,1886.8 C2404.9,1894.3 2399.8,1907.0 2396.0,1915.0 C2392.2,1923.0 2387.3,1935.3 2385.0,1942.4 C2382.8,1949.5 2378.2,1961.1 2374.9,1968.2 C2371.6,1975.3 2366.9,1987.0 2364.4,1994.2 C2361.9,2001.5 2356.9,2013.8 2353.4,2021.5 C2349.8,2029.2 2345.1,2041.3 2343.0,2048.3 C2340.8,2055.4 2337.8,2063.5 2336.2,2066.3 C2330.4,2076.8 2318.9,2081.1 2311.0,2075.8 Z M894.5,1989.0 C858.9,1988.1 816.3,1986.2 804.0,1984.9 C775.5,1982.0 758.2,1972.5 736.5,1948.1 C725.2,1935.4 720.0,1926.7 715.6,1912.6 C709.7,1894.2 709.5,1891.9 709.5,1842.5 C709.5,1789.9 709.3,1791.6 720.9,1762.5 C724.7,1753.1 728.4,1742.7 729.1,1739.4 C730.7,1732.6 730.6,1664.1 729.0,1632.0 C727.0,1592.7 725.8,1416.5 726.6,1289.0 C727.8,1103.6 727.7,1007.1 726.1,948.0 C725.0,904.4 724.9,880.5 726.0,807.5 C727.1,728.2 726.8,515.6 725.6,511.8 C725.3,511.1 724.6,498.4 724.0,483.5 C722.3,443.6 721.3,440.0 708.0,424.0 C693.8,407.0 692.7,401.9 692.7,353.5 C692.6,296.8 696.0,286.5 724.9,256.7 C732.4,248.9 753.2,231.0 760.2,226.1 C773.9,216.9 780.3,216.2 843.5,216.9 C871.5,217.3 904.6,217.3 917.0,217.0 C965.8,215.6 974.8,218.6 1001.5,245.5 C1012.1,256.1 1016.7,261.8 1026.5,276.0 C1039.6,295.2 1042.6,301.6 1046.2,318.0 C1048.7,329.8 1048.9,364.1 1047.0,464.0 C1045.3,548.7 1043.8,956.1 1044.6,1099.0 C1045.7,1290.6 1045.5,1397.7 1044.2,1458.7 C1042.7,1524.5 1042.6,1731.1 1044.1,1807.5 C1045.7,1894.1 1044.7,1901.3 1027.4,1929.9 C1010.5,1957.6 994.6,1973.1 971.9,1984.0 C958.3,1990.5 957.7,1990.5 894.5,1989.0 Z M3269.0,1989.0 C3203.4,1988.3 3205.9,1988.5 3191.0,1982.1 C3172.6,1974.2 3163.6,1967.4 3147.5,1949.3 C3133.4,1933.5 3129.7,1926.7 3122.5,1903.0 C3116.1,1881.9 3116.1,1881.1 3115.0,1816.0 C3114.5,1783.3 3113.6,1737.4 3113.0,1714.0 C3111.6,1655.7 3111.6,1555.2 3113.0,1465.7 C3113.8,1415.4 3114.0,1348.4 3113.5,1261.7 C3112.7,1122.5 3112.6,654.7 3113.3,452.0 C3113.8,313.7 3113.3,324.0 3120.7,307.5 C3136.4,272.5 3149.4,255.2 3173.9,236.7 C3196.2,219.9 3189.7,220.8 3285.4,220.4 C3370.8,220.0 3373.0,220.1 3383.1,225.4 C3399.2,233.7 3437.6,268.1 3447.4,283.0 C3459.7,301.6 3464.4,323.4 3464.4,363.0 C3464.5,393.0 3464.1,394.5 3450.1,419.4 C3439.1,438.9 3438.2,442.5 3437.0,468.9 C3436.5,480.8 3435.4,494.8 3434.6,500.0 C3430.8,523.6 3430.7,531.9 3430.7,802.5 C3430.8,947.7 3431.1,1114.7 3431.5,1173.5 C3432.0,1248.4 3431.8,1312.9 3430.9,1388.5 C3429.3,1513.2 3429.2,1672.6 3430.7,1724.0 C3431.9,1765.2 3432.3,1766.9 3441.6,1781.0 C3453.4,1798.8 3454.8,1804.1 3456.1,1835.5 C3458.2,1887.6 3454.7,1907.1 3439.2,1930.0 C3420.6,1957.5 3408.7,1968.7 3386.4,1979.8 C3370.2,1987.9 3359.5,1990.2 3339.5,1989.8 C3334.0,1989.7 3302.3,1989.3 3269.0,1989.0 Z M3587.5,1792.5 C3554.7,1785.5 3520.7,1755.3 3514.4,1727.5 C3511.6,1715.2 3509.6,1194.4 3511.8,1057.5 C3514.6,891.8 3515.2,835.2 3516.0,709.5 C3517.1,533.5 3518.1,509.6 3524.4,494.1 C3531.3,477.1 3553.0,448.4 3567.0,437.6 C3588.5,421.0 3592.5,420.3 3650.5,423.0 C3709.7,425.8 3710.8,426.0 3725.5,435.5 C3752.3,452.9 3774.4,482.5 3779.4,507.7 C3780.4,512.6 3781.0,528.4 3781.4,563.3 C3782.0,614.6 3781.5,628.3 3777.9,650.6 C3776.1,661.9 3775.9,666.9 3776.3,687.1 C3777.3,742.1 3779.1,801.4 3780.5,827.5 C3782.2,859.4 3784.7,942.1 3785.4,989.5 C3785.7,1007.1 3786.5,1043.1 3787.1,1069.5 C3788.0,1105.7 3788.1,1131.5 3787.3,1174.5 C3786.6,1208.2 3786.4,1281.4 3786.7,1353.5 C3787.7,1597.7 3787.3,1673.8 3784.9,1698.4 C3783.5,1713.4 3776.0,1733.4 3766.7,1747.0 C3761.8,1754.2 3743.0,1772.9 3736.5,1777.2 C3722.4,1786.5 3705.9,1791.9 3690.5,1792.6 C3661.3,1793.7 3593.2,1793.7 3587.5,1792.5 Z M485.0,1791.0 C435.7,1790.2 429.8,1789.3 411.0,1779.4 C391.5,1769.2 367.7,1737.3 362.3,1714.2 C359.8,1703.4 359.9,1507.2 362.4,1459.5 C363.6,1438.1 364.3,1395.5 365.0,1311.0 C365.9,1199.1 366.8,1131.8 369.0,1003.5 C371.3,872.5 372.1,829.0 373.2,772.0 C375.0,680.7 374.9,676.1 368.9,649.2 C363.2,623.8 358.5,540.9 360.8,509.7 C362.4,489.4 362.7,488.6 382.5,457.9 C390.8,445.1 411.0,426.6 423.2,420.6 C435.5,414.6 434.3,414.7 498.8,414.3 C563.4,413.8 568.3,414.1 578.8,419.0 C589.5,424.0 620.3,456.2 631.9,474.5 C635.9,480.7 639.2,491.4 641.7,505.0 C643.7,516.7 643.7,512.0 642.7,737.5 C641.3,1069.0 641.1,1275.7 642.0,1339.0 C644.7,1524.2 643.6,1703.9 639.7,1722.5 C636.3,1738.2 631.6,1746.7 617.0,1762.8 C603.4,1777.9 590.8,1786.1 575.2,1790.1 C566.9,1792.2 566.3,1792.2 485.0,1791.0 Z M3937.8,1498.0 C3919.0,1496.2 3894.5,1485.4 3883.0,1474.0 C3874.9,1465.8 3866.2,1449.3 3863.0,1436.0 C3860.6,1426.0 3859.8,905.7 3862.1,859.5 C3862.8,845.8 3863.4,821.2 3863.4,805.0 C3863.5,776.8 3863.6,775.2 3865.8,768.8 C3872.9,748.2 3897.4,725.4 3918.7,719.4 C3926.4,717.2 3970.4,716.2 3980.8,718.0 C4003.5,721.8 4039.4,752.8 4047.7,775.7 C4054.1,793.3 4054.4,797.1 4054.6,861.0 C4054.7,893.2 4055.3,934.4 4056.0,952.5 C4056.8,974.6 4057.1,1019.4 4056.9,1088.0 C4056.7,1144.4 4056.9,1222.7 4057.4,1262.0 C4058.9,1387.4 4056.4,1424.6 4045.0,1444.5 C4041.1,1451.4 4027.6,1467.4 4018.9,1475.3 C4010.7,1483.0 3990.3,1493.7 3979.0,1496.4 C3971.0,1498.3 3949.5,1499.2 3937.8,1498.0 Z M184.9,1494.9 C160.1,1492.3 140.3,1482.9 118.4,1463.3 C107.2,1453.2 102.0,1446.1 94.9,1431.5 C85.5,1412.1 85.9,1415.4 85.0,1344.5 C82.3,1127.8 82.7,1062.9 86.9,993.0 C90.2,939.4 91.0,918.6 92.0,872.5 C93.2,816.5 95.0,801.3 103.1,780.5 C111.9,758.0 135.4,729.3 151.5,721.5 C159.6,717.6 168.9,716.7 202.0,716.6 C231.0,716.5 232.8,716.6 238.3,718.7 C252.2,723.9 267.6,738.8 275.8,754.8 C284.2,771.1 285.3,776.4 285.5,803.5 C285.6,816.1 286.2,883.2 286.8,952.5 C287.6,1037.9 287.8,1126.6 287.2,1227.5 C286.8,1309.5 286.7,1382.8 287.1,1390.5 C289.0,1429.4 288.3,1436.4 281.0,1451.5 C270.0,1474.0 251.2,1490.3 231.3,1494.5 C223.8,1496.1 198.0,1496.3 184.9,1494.9 Z" pathLength="1" fill-rule="evenodd"/>
+    <g class="pt"><circle cx="80" cy="500" r="9"/><circle cx="920" cy="500" r="9"/><circle cx="500" cy="80" r="9"/><circle cx="500" cy="920" r="9"/></g>
+  </svg>
+  <div class="ld-meta mono"><span>STRYKA · LOADING</span><span class="ld-num">000</span></div>
+</div>
+
+<header class="nav">
+  <a class="brand" href="#top"><img src="assets/img/stryka-mark.svg" alt=""><span>STRYKA</span></a>
+  <nav class="links mono"><a href="#tour">Tour</a><a href="#specs">Specs</a><a href="#plans">Plans</a><a href="#faq">FAQ</a></nav>
+  <a class="play sm" href="https://play.google.com/store/apps/details?id=com.buddhabytes.rise" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M160,128,58.32,230A7.7,7.7,0,0,1,56,224.45V31.55A7.7,7.7,0,0,1,58.32,26Z" opacity="0.2"/><path d="M239.82,114.18,72,18.16a16,16,0,0,0-16.12,0A15.68,15.68,0,0,0,48,31.87V224.13a15.68,15.68,0,0,0,7.92,13.67,16,16,0,0,0,16.12,0l167.78-96a15.76,15.76,0,0,0,0-27.64ZM64,212.67V43.33L148.69,128Zm96-73.36,18.92,18.92-88.5,50.66ZM90.4,47.1l88.53,50.67L160,116.69ZM193.31,150l-22-22,22-22,38.43,22Z"/></svg><span>Get it on Google Play</span></a>
 </header>
 
-<section id="apps">
+<main id="top">
+<section class="hero" data-scr="assets/img/apps/rise/shot-1.webp" data-vid="assets/video/stryka/pulse.webm" data-side="r">
+  <div class="hero-in">
+    <p class="mono kicker rv">[ STRYKA · WORKOUTS &amp; FITNESS ]</p>
+    <h1 class="split rv">Train smarter. Recover better.</h1>
+    <p class="lead rv">Know when to push, see the sleep you owe, run on a 3D map and train with a 3D coach. One calm app that turns your watch data into a plan.</p>
+    <div class="cta rv"><a class="play" href="https://play.google.com/store/apps/details?id=com.buddhabytes.rise" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M160,128,58.32,230A7.7,7.7,0,0,1,56,224.45V31.55A7.7,7.7,0,0,1,58.32,26Z" opacity="0.2"/><path d="M239.82,114.18,72,18.16a16,16,0,0,0-16.12,0A15.68,15.68,0,0,0,48,31.87V224.13a15.68,15.68,0,0,0,7.92,13.67,16,16,0,0,0,16.12,0l167.78-96a15.76,15.76,0,0,0,0-27.64ZM64,212.67V43.33L148.69,128Zm96-73.36,18.92,18.92-88.5,50.66ZM90.4,47.1l88.53,50.67L160,116.69ZM193.31,150l-22-22,22-22,38.43,22Z"/></svg><span>Get it on Google Play</span></a><a class="ghost" href="#tour">Take the tour</a></div>
+    <p class="mono meta rv">ANDROID · 7-DAY FREE TRIAL · EN / العربية / हिन्दी</p>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/shot-1.webp" alt="Stryka Pulse screen with the Readiness dial">
+  <a class="cue mono" href="#tour">SCROLL<i></i></a>
+</section>
+
+<div id="tour">
+<section class="ch ch-r" data-scr="assets/img/apps/rise/shot-1.webp" data-vid="assets/video/stryka/pulse.webm" data-side="l">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 01 / 09 ] READINESS</p>
+    <h2 class="split rv">Know when to push</h2>
+    <p class="body rv">One Readiness number every morning from your sleep, HRV, resting heart rate and training load, compared with your own normal. Then one clear thing to do today.</p>
+    <dl class="spec rv"><dt class="mono">COMPARED WITH</dt><dd>Your 30-day normal (est.)</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/shot-1.webp" alt="Stryka: Readiness" loading="lazy">
+</section>
+<section class="ch ch-l" data-scr="assets/img/apps/rise/tour-ins-heat.webp" data-side="r">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 02 / 09 ] SLEEP DEBT</p>
+    <h2 class="split rv">The sleep you owe</h2>
+    <p class="body rv">Stryka adds up the sleep you missed over the last 14 nights, with recent nights counting more, and shows when you&#x27;re paying it back. Nights with no data are skipped, never counted as short.</p>
+    <dl class="spec rv"><dt class="mono">LOOKS BACK</dt><dd>14 nights</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/tour-ins-heat.webp" alt="Stryka: Sleep debt" loading="lazy">
+</section>
+<section class="ch ch-r" data-scr="assets/img/apps/rise/tour-ins-vitals.webp" data-vid="assets/video/stryka/insights.webm" data-side="l">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 03 / 09 ] TRENDS</p>
+    <h2 class="split rv">Every trend. One place.</h2>
+    <p class="body rv">HRV, heart rate, sleep, steps, weight and training in week, month, 3-month and year views, each compared with the weeks before. Fitness, fatigue and form with a race-day forecast.</p>
+    <dl class="spec rv"><dt class="mono">VIEWS</dt><dd>W · M · 3M · Y</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/tour-ins-vitals.webp" alt="Stryka: Trends" loading="lazy">
+</section>
+<section class="ch ch-l" data-scr="assets/img/apps/rise/tour-ins-clock.webp" data-side="r">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 04 / 09 ] PEAK HOURS</p>
+    <h2 class="split rv">Find your prime time</h2>
+    <p class="body rv">The energy clock learns from your own sleep, movement and sessions when you tend to perform best, and shows your daily peak window.</p>
+    <dl class="spec rv"><dt class="mono">LEARNED FROM</dt><dd>Your own data (est.)</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/tour-ins-clock.webp" alt="Stryka: Peak hours" loading="lazy">
+</section>
+<section class="ch ch-r" data-scr="assets/img/apps/rise/shot-3.webp" data-vid="assets/video/stryka/run.webm" data-side="l">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 05 / 09 ] RUNS</p>
+    <h2 class="split rv">Run on a 3D map</h2>
+    <p class="body rv">Live GPS on a tilted 3D street map with buildings: pace, splits, elevation and auto-pause. Suggested loops for the distance you pick. Keeps recording with the screen locked.</p>
+    <dl class="spec rv"><dt class="mono">RUNNING FEATURES</dt><dd>Free</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/shot-3.webp" alt="Stryka: Runs" loading="lazy">
+</section>
+<section class="ch ch-l" data-scr="assets/img/apps/rise/tour-run-finish.webp" data-vid="assets/video/stryka/replay.webm" data-side="r">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 06 / 09 ] RUN REPLAY</p>
+    <h2 class="split rv">Watch it again</h2>
+    <p class="body rv">Tap Replay and your route draws itself on the real map while your pace ticks along. Save it as a short 9:16 video and share it to any app on your phone. The start and end of your route stay hidden.</p>
+    <dl class="spec rv"><dt class="mono">FORMAT</dt><dd>9:16 video</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/tour-run-finish.webp" alt="Stryka: Run replay" loading="lazy">
+</section>
+<section class="ch ch-r" data-scr="assets/img/apps/rise/shot-4.webp" data-vid="assets/video/stryka/coach.webm" data-side="l">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 07 / 09 ] 3D COACH</p>
+    <h2 class="split rv">Every move in 3D</h2>
+    <p class="body rv">Recorded 3D videos for every exercise, with the working muscles lit, set timers and your last weight. My Plan adapts from 30 to 90 minutes, at the gym or at home.</p>
+    <dl class="spec rv"><dt class="mono">EXERCISES</dt><dd>400+</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/shot-4.webp" alt="Stryka: 3D coach" loading="lazy">
+</section>
+<section class="ch ch-l" data-scr="assets/img/apps/rise/shot-5.webp" data-side="r">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 08 / 09 ] FOOD</p>
+    <h2 class="split rv">Snap. Log. Done.</h2>
+    <p class="body rv">Snap a meal, scan a barcode or search 1,000+ foods from around the world. Calories, protein, carbs and fat against your daily targets (est.), plus water and fasting.</p>
+    <dl class="spec rv"><dt class="mono">FOODS</dt><dd>1,000+</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/shot-5.webp" alt="Stryka: Food" loading="lazy">
+</section>
+<section class="ch ch-r" data-scr="assets/img/apps/rise/shot-6.webp" data-side="l">
+  <div class="ch-in">
+    <p class="mono kicker rv">[ 09 / 09 ] MIND</p>
+    <h2 class="split rv">Breathe. Focus. Rest.</h2>
+    <p class="body rv">Monk mode for distraction-free focus, guided breathing and real recorded nature sounds for focus, study and sleep.</p>
+    <dl class="spec rv"><dt class="mono">PRICE</dt><dd>Free</dd></dl>
+  </div>
+  <img class="fb" src="assets/img/apps/rise/shot-6.webp" alt="Stryka: Mind" loading="lazy">
+</section>
+</div>
+
+<section id="specs" class="specs" data-scr="assets/img/apps/rise/shot-1.webp" data-away="1">
   <div class="wrap">
-    <div class="section-head reveal"><h2>Our apps</h2><p>Each one does one thing well. Stryka is on Google Play; the others are coming soon.</p></div>
-    <div class="app-grid">
-      <a class="app-card reveal" href="rise/" style="--accent:#2DD4BF;--accent-ink:#06201C;--hero-bg:#0B1413">
-        <img class="bg" src="assets/img/photos/rise.webp" alt="" loading="lazy">
-        <div class="top"><img src="assets/img/apps/rise/icon.png" alt=""><div><h3>Stryka</h3><div class="kind">Training · Runs · Insights</div></div></div>
-        <p>Readiness, sleep debt and trends, runs on a 3D map with replay videos, a 3D workout coach, food and calm in one app.</p>
-        <span class="tag">Get it on Google Play</span>
-        <div class="peek"><div class="phone"><img src="assets/img/apps/rise/shot-1.webp" alt="Stryka: Workouts &amp; Fitness screenshot" loading="lazy"></div></div>
-        <span class="go" aria-hidden="true"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128l-72,72V56Z" opacity="0.2"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></span>
-      </a>
-      <a class="app-card reveal" href="fastwise/" style="--accent:#E7B75A;--accent-ink:#1D1B18;--hero-bg:#0E1320">
-        <img class="bg" src="assets/img/photos/fastwise.webp" alt="" loading="lazy">
-        <div class="top"><img src="assets/img/apps/fastwise/icon.png" alt=""><div><h3>Fastwise</h3><div class="kind">Intermittent fasting · 16:8 · Ramadan</div></div></div>
-        <p>Free intermittent fasting tracker: 16:8 timer, fasting journal, 160+ dishes from around the world and a free Ramadan mode for 45 countries.</p>
-        <span class="tag">Coming soon to Google Play</span>
-        <div class="peek"><div class="phone"><img src="assets/img/apps/fastwise/shot-1.webp" alt="Fastwise: Intermittent Fasting screenshot" loading="lazy"></div></div>
-        <span class="go" aria-hidden="true"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128l-72,72V56Z" opacity="0.2"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></span>
-      </a>
-      <a class="app-card reveal" href="kairo/" style="--accent:#FF7A59;--accent-ink:#2A0E05;--hero-bg:#13222A">
-        <img class="bg" src="assets/img/photos/kairo.webp" alt="" loading="lazy">
-        <div class="top"><img src="assets/img/apps/kairo/icon.png" alt=""><div><h3>Kairo</h3><div class="kind">Planner · Focus · Shared tasks</div></div></div>
-        <p>Turn a messy list into a realistic, time-boxed and forgiving day. Share tasks by email. No ads.</p>
-        <span class="tag">Coming soon to Google Play</span>
-        <div class="peek"><div class="phone"><img src="assets/img/apps/kairo/shot-1.webp" alt="Kairo: Day Planner &amp; Focus screenshot" loading="lazy"></div></div>
-        <span class="go" aria-hidden="true"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128l-72,72V56Z" opacity="0.2"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></span>
-      </a>
-      <a class="app-card reveal" href="mauna/" style="--accent:#00CBA9;--accent-ink:#04211C;--hero-bg:#0A1211">
-        <img class="bg" src="assets/img/photos/mauna.webp" alt="" loading="lazy">
-        <div class="top"><img src="assets/img/apps/mauna/icon.png" alt=""><div><h3>Mauna</h3><div class="kind">Calm Android launcher</div></div></div>
-        <p>Your phone, quiet by default. A calm launcher with a breath before noisy apps.</p>
-        <span class="tag">Coming soon to Google Play</span>
-        <div class="peek"><div class="phone"><img src="assets/img/apps/mauna/shot-1.webp" alt="Mauna: Calm Home Screen screenshot" loading="lazy"></div></div>
-        <span class="go" aria-hidden="true"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128l-72,72V56Z" opacity="0.2"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></span>
-      </a>
-      <a class="app-card reveal" href="unwind/" style="--accent:#6CC3B2;--accent-ink:#0B1715;--hero-bg:#0E1A1E">
-        <img class="bg" src="assets/img/photos/unwind.webp" alt="" loading="lazy">
-        <div class="top"><img src="assets/img/apps/unwind/icon.png" alt=""><div><h3>Unwind</h3><div class="kind">Breathing · Sleep · Calm games</div></div></div>
-        <p>Self-care in minutes: breathing, meditations, sleep stories, nature sounds and calm games. No ads.</p>
-        <span class="tag">Coming soon to Google Play</span>
-        <div class="peek"><div class="phone"><img src="assets/img/apps/unwind/shot-1.webp" alt="Unwind: Relax, Breathe &amp; Sleep screenshot" loading="lazy"></div></div>
-        <span class="go" aria-hidden="true"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128l-72,72V56Z" opacity="0.2"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></span>
-      </a>
-      <a class="app-card reveal" href="dailygrowth/" style="--accent:#FFB37A;--accent-ink:#3A2410;--hero-bg:#13241D">
-        <img class="bg" src="assets/img/photos/dailygrowth.webp" alt="" loading="lazy">
-        <div class="top"><img src="assets/img/apps/dailygrowth/icon.png" alt=""><div><h3>Daily Growth</h3><div class="kind">Habits · Journeys · Insights</div></div></div>
-        <p>Forgiving streaks, a minimum version for every habit, guided Journeys and Lumi, a companion that grows with you.</p>
-        <span class="tag">Coming soon to Google Play</span>
-        <div class="peek"><div class="phone"><img src="assets/img/apps/dailygrowth/shot-1.webp" alt="Habit Tracker: Daily Growth screenshot" loading="lazy"></div></div>
-        <span class="go" aria-hidden="true"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128l-72,72V56Z" opacity="0.2"/><path d="M221.66,122.34l-72-72A8,8,0,0,0,136,56v64H40a8,8,0,0,0,0,16h96v64a8,8,0,0,0,13.66,5.66l72-72A8,8,0,0,0,221.66,122.34ZM152,180.69V75.31L204.69,128Z"/></svg></span>
-      </a>
+    <p class="mono kicker rv">[ SPEC SHEET ]</p>
+    <h2 class="split rv">Built honest.</h2>
+    <div class="spec-grid"><div class="sc rv"><p class="mono">WORKS WITH</p><b>Health Connect</b><span>Steps, sleep, heart rate, HRV and workouts, with your permission</span></div><div class="sc rv"><p class="mono">LANGUAGES</p><b>EN · العربية · हिन्दी</b><span>Full right-to-left Arabic</span></div><div class="sc rv"><p class="mono">UNITS</p><b>kg ⇄ lb</b><span>Stored once, shown your way</span></div><div class="sc rv"><p class="mono">THEMES</p><b>Dark · Light · Auto</b><span>Auto follows your phone</span></div><div class="sc rv"><p class="mono">ADS</p><b>0</b><span>None. Not now, not later</span></div><div class="sc rv"><p class="mono">SHARING</p><b>Picture or video</b><span>To any app your phone offers</span></div><div class="sc rv"><p class="mono">YOUR DATA</p><b>Yours</b><span>Delete your account and data any time, from the app</span></div><div class="sc rv"><p class="mono">HEALTH NUMBERS</p><b>Estimates</b><span>Never a diagnosis, never medical advice</span></div></div>
+  </div>
+</section>
+
+<section id="plans" class="plans" data-scr="assets/img/apps/rise/shot-1.webp" data-away="1">
+  <div class="wrap">
+    <p class="mono kicker rv">[ CHOOSE YOUR STRYKA ]</p>
+    <h2 class="split rv">Free. Or all in.</h2>
+    <p class="sub rv">Try every feature free for 7 days from install. No card needed. After that, keep the free plan or go Premium. Prices are shown in the app before you pay.</p>
+    <div class="plan-grid">
+      <div class="plan rv"><p class="mono">[ STRYKA ]</p><h3>Free</h3><ul><li>All running: GPS, 3D map, replay and race plans</li><li>Health insights for this week and last week</li><li>Monk, Vibes and guided breathing</li><li>Food diary, barcode and water, plus 1 AI food scan a day</li><li>About half the workouts and 3 plans</li><li>Sweat Stories, groups and invites</li></ul></div>
+      <div class="plan pro rv"><p class="mono">[ STRYKA PREMIUM ]</p><h3>Premium</h3><p class="mono note">Everything in Free, plus</p><ul><li>Every workout and plan</li><li>Insights for month, 3 months and year</li><li>Unlimited AI food scans</li><li>Ask Coach</li><li>Create friend challenges</li><li>Gym progress charts</li></ul></div>
     </div>
   </div>
 </section>
 
-<section id="approach" class="alt">
+<section id="faq" class="faq" data-scr="assets/img/apps/rise/shot-1.webp" data-away="1">
   <div class="wrap">
-    <div class="section-head reveal"><h2>One rule: help first</h2><p>Every Buddha Bytes app follows the same principles.</p></div>
-    <div class="feature-grid"><div class="feature reveal"><div class="fi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M16,152H48v56H16a8,8,0,0,1-8-8V160A8,8,0,0,1,16,152ZM192.54,40A39.12,39.12,0,0,0,156,64a39.12,39.12,0,0,0-36.54-24C97.67,40,80,58.31,80,80c0,14.56,7,27.71,16.73,40H140a20,20,0,0,1,0,40h4l37.78-8.68C203.82,135.07,232,109.23,232,80,232,58.31,214.33,40,192.54,40Z" opacity="0.2"/><path d="M230.33,141.06a24.34,24.34,0,0,0-18.61-4.77C230.5,117.33,240,98.48,240,80c0-26.47-21.29-48-47.46-48A47.58,47.58,0,0,0,156,48.75,47.58,47.58,0,0,0,119.46,32C93.29,32,72,53.53,72,80c0,11,3.24,21.69,10.06,33a31.87,31.87,0,0,0-14.75,8.4L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM119.46,48A31.15,31.15,0,0,1,148.6,67a8,8,0,0,0,14.8,0,31.15,31.15,0,0,1,29.14-19C209.59,48,224,62.65,224,80c0,19.51-15.79,41.58-45.66,63.9l-11.09,2.55A28,28,0,0,0,140,112H100.68C92.05,100.36,88,90.12,88,80,88,62.65,102.41,48,119.46,48ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9Z"/></svg></div><h4>Help first, never manipulate</h4><p>No dark patterns, fake counters or guilt-driven streaks. Our apps end on purpose.</p></div><div class="feature reveal"><div class="fi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,96V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V96a8,8,0,0,1,8-8H208A8,8,0,0,1,216,96Z" opacity="0.2"/><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg></div><h4>Private by design</h4><p>No ads in any app. We collect only what a feature needs, and you can delete it any time.</p></div><div class="feature reveal"><div class="fi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M232,128c0,12.51-17.82,21.95-22.68,33.69-4.68,11.32,1.42,30.65-7.78,39.85s-28.53,3.1-39.85,7.78C150,214.18,140.5,232,128,232s-22-17.82-33.69-22.68c-11.32-4.68-30.65,1.42-39.85-7.78s-3.1-28.53-7.78-39.85C41.82,150,24,140.5,24,128s17.82-22,22.68-33.69C51.36,83,45.26,63.66,54.46,54.46S83,51.36,94.31,46.68C106.05,41.82,115.5,24,128,24S150,41.82,161.69,46.68c11.32,4.68,30.65-1.42,39.85,7.78s3.1,28.53,7.78,39.85C214.18,106.05,232,115.5,232,128Z" opacity="0.2"/><path d="M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.15,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.15,214.31,142.11ZM173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34Z"/></svg></div><h4>Honest claims</h4><p>Health numbers are labelled as estimates, evidence is graded, and prices are real.</p></div><div class="feature reveal"><div class="fi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,184H144l40-80ZM96,127.56h0A95.78,95.78,0,0,0,128,56H64A95.78,95.78,0,0,0,96,127.56Z" opacity="0.2"/><path d="M247.15,212.42l-56-112a8,8,0,0,0-14.31,0l-21.71,43.43A88,88,0,0,1,108,126.93,103.65,103.65,0,0,0,135.69,64H160a8,8,0,0,0,0-16H104V32a8,8,0,0,0-16,0V48H32a8,8,0,0,0,0,16h87.63A87.7,87.7,0,0,1,96,116.35a87.74,87.74,0,0,1-19-31,8,8,0,1,0-15.08,5.34A103.63,103.63,0,0,0,84,127a87.55,87.55,0,0,1-52,17,8,8,0,0,0,0,16,103.46,103.46,0,0,0,64-22.08,104.18,104.18,0,0,0,51.44,21.31l-26.6,53.19a8,8,0,0,0,14.31,7.16L148.94,192h70.11l13.79,27.58A8,8,0,0,0,240,224a8,8,0,0,0,7.15-11.58ZM156.94,176,184,121.89,211.05,176Z"/></svg></div><h4>Made for the Gulf &amp; South Asia</h4><p>Regional food, Ramadan, Hijri dates, and English, Arabic and Hindi across our apps.</p></div><div class="feature reveal"><div class="fi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,200c-15.37,0-40.77-.18-70-17.64S19.31,143,16.28,131.82A7.94,7.94,0,0,1,21.74,122a69.59,69.59,0,0,1,30.82-.64h0c-7.63-23.88-4-42.44-1-51.71A8.2,8.2,0,0,1,61,64.18C68.56,65.79,81.28,70,94.6,80.8v0A108.49,108.49,0,0,0,88,119.18C88,178,128,200,128,200Zm106.26-78a69.59,69.59,0,0,0-30.82-.64h0c7.63-23.88,4-42.44,1-51.71A8.2,8.2,0,0,0,195,64.18c-7.52,1.61-20.24,5.8-33.56,16.62v0A108.49,108.49,0,0,1,168,119.18C168,178,128,200,128,200c15.37,0,40.77-.18,70-17.64s38.69-39.34,41.72-50.54A7.94,7.94,0,0,0,234.26,122Z" opacity="0.2"/><path d="M245.83,121.63a15.53,15.53,0,0,0-9.52-7.33,73.51,73.51,0,0,0-22.17-2.22c4-19.85,1-35.55-2.06-44.86a16.15,16.15,0,0,0-18.79-10.88,85.53,85.53,0,0,0-28.55,12.12,94.58,94.58,0,0,0-27.11-33.25,16.05,16.05,0,0,0-19.26,0A94.48,94.48,0,0,0,91.26,68.46,85.53,85.53,0,0,0,62.71,56.34,16.15,16.15,0,0,0,43.92,67.22c-3,9.31-6,25-2.06,44.86a73.51,73.51,0,0,0-22.17,2.22,15.53,15.53,0,0,0-9.52,7.33,16,16,0,0,0-1.6,12.27c3.39,12.57,13.8,36.48,45.33,55.32S113.13,208,128.05,208s42.67,0,74-18.78c31.53-18.84,41.94-42.75,45.33-55.32A16,16,0,0,0,245.83,121.63ZM59.14,72.14a.2.2,0,0,1,.23-.15A70.43,70.43,0,0,1,85.18,83.66,118.65,118.65,0,0,0,80,119.17c0,18.74,3.77,34,9.11,46.28A123.59,123.59,0,0,1,69.57,140C51.55,108.62,55.3,84,59.14,72.14Zm3,103.35C35.47,159.57,26.82,140.05,24,129.7a59.82,59.82,0,0,1,22.5-1.17,129.08,129.08,0,0,0,9.15,19.41,142.28,142.28,0,0,0,34,39.56A114.92,114.92,0,0,1,62.1,175.49ZM128,190.4c-9.33-6.94-32-28.23-32-71.23C96,76.7,118.38,55.24,128,48c9.62,7.26,32,28.72,32,71.19C160,162.17,137.33,183.46,128,190.4ZM170.82,83.66A70.43,70.43,0,0,1,196.63,72a.2.2,0,0,1,.23.15C200.7,84,204.45,108.62,186.43,140a123.32,123.32,0,0,1-19.54,25.48c5.34-12.26,9.11-27.54,9.11-46.28A118.65,118.65,0,0,0,170.82,83.66ZM232,129.72c-2.77,10.25-11.4,29.81-38.09,45.77a114.92,114.92,0,0,1-27.55,12,142.28,142.28,0,0,0,34-39.56,129.08,129.08,0,0,0,9.15-19.41A59.69,59.69,0,0,1,232,129.71Z"/></svg></div><h4>Calm by design</h4><p>Gentle motion, soothing themes and reminders that respect your time.</p></div><div class="feature reveal"><div class="fi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M136,108A52,52,0,1,1,84,56,52,52,0,0,1,136,108Z" opacity="0.2"/><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"/></svg></div><h4>For everyone</h4><p>Senior Mode, larger text, reduced motion, high contrast and focus-friendly modes.</p></div></div>
+    <p class="mono kicker rv">[ QUESTIONS ]</p>
+    <h2 class="split rv">Good to know.</h2>
+    <div class="qa"><details class="rv"><summary>Is Stryka free?</summary><p>You can try every feature free for 7 days from install, with no card needed. After that, keep the free plan or subscribe to Stryka Premium in the app. Prices are shown clearly before you pay.</p></details><details class="rv"><summary>Does Stryka work with my watch?</summary><p>On Android, Stryka reads steps, sleep, heart rate, HRV and workouts from Health Connect, with your permission. You can also log them yourself. The iPhone version, with Apple Health, is coming soon.</p></details><details class="rv"><summary>Do I need gym equipment?</summary><p>No. Pick home or no-equipment plans and Stryka only shows exercises you can do with what you have.</p></details><details class="rv"><summary>Is Stryka medical advice?</summary><p>No. Stryka is a wellness app. Readiness, calories and other numbers are estimates and not medical advice.</p></details><details class="rv"><summary>Can I delete my data?</summary><p>Yes. Delete your account and data any time from the app, or follow the steps on our delete-data page.</p></details></div>
   </div>
 </section>
 
-<section id="about">
-  <div class="wrap about-grid">
-    <div class="reveal">
-      <h2 style="font-size:clamp(1.8rem,3.6vw,2.6rem);margin:0 0 14px">About Buddha Bytes</h2>
-      <p>Buddha Bytes is an independent app studio based in Dubai. We design for genuine, healthy engagement: clear numbers, honest defaults and features people actually asked for, instead of streaks and pressure designed to keep you scrolling.</p>
-      <p>Our apps are built for the Gulf and South Asia first, with regional food, Ramadan and local languages, and work for anyone, anywhere.</p>
-      <div class="stat-row"><div><b>6</b><span>apps</span></div><div><b>0</b><span>ads</span></div><div><b>3</b><span>languages</span></div></div>
-    </div>
-    <div class="contact-card reveal" id="contact">
-      <img class="bg" src="assets/img/photos/mauna.webp" alt="" loading="lazy">
-      <h3>Get in touch</h3>
-      <p>Questions, feedback or support requests. We read everything.</p>
-      <p><a href="mailto:support@buddhabytes.app">support@buddhabytes.app</a></p>
-    </div>
+<section class="final" data-scr="assets/img/apps/rise/shot-1.webp" data-away="1">
+  <div class="wrap">
+    <h2 class="giant split rv">Get Stryka</h2>
+    <a class="play big rv" href="https://play.google.com/store/apps/details?id=com.buddhabytes.rise" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M160,128,58.32,230A7.7,7.7,0,0,1,56,224.45V31.55A7.7,7.7,0,0,1,58.32,26Z" opacity="0.2"/><path d="M239.82,114.18,72,18.16a16,16,0,0,0-16.12,0A15.68,15.68,0,0,0,48,31.87V224.13a15.68,15.68,0,0,0,7.92,13.67,16,16,0,0,0,16.12,0l167.78-96a15.76,15.76,0,0,0,0-27.64ZM64,212.67V43.33L148.69,128Zm96-73.36,18.92,18.92-88.5,50.66ZM90.4,47.1l88.53,50.67L160,116.69ZM193.31,150l-22-22,22-22,38.43,22Z"/></svg><span>Get it on Google Play</span></a>
+    <p class="mono meta rv">IPHONE VERSION COMING SOON</p>
   </div>
 </section>
+</main>
 
-<footer>
+<footer class="foot">
   <div class="wrap">
-    <span>© <span data-year>2026</span> Buddha Bytes · Dubai</span>
-    <div class="foot-links"><a href="rise/">Stryka</a><a href="fastwise/">Fastwise</a><a href="kairo/">Kairo</a><a href="mauna/">Mauna</a><a href="unwind/">Unwind</a><a href="dailygrowth/">Daily Growth</a><a href="mailto:support@buddhabytes.app">support@buddhabytes.app</a></div>
+    <div><img src="assets/img/stryka-mark.svg" alt=""><span>STRYKA · by Buddha Bytes, Dubai</span></div>
+    <nav class="mono"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="delete-data.html">Delete account &amp; data</a><a href="mailto:support@buddhabytes.app">support@buddhabytes.app</a></nav>
+    <p class="mono small">Stryka is a wellness app. Health numbers are estimates, not medical advice. Screens are real recordings of the app with sample data. © <span data-year>2026</span> Buddha Bytes.</p>
   </div>
 </footer>
 <script>document.querySelectorAll('[data-year]').forEach(e=>e.textContent=new Date().getFullYear())</script>
-<script>(()=>{const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>o.observe(e))})()</script>
+<script src="assets/js/home3d.js" defer></script>
 </body>
 </html>

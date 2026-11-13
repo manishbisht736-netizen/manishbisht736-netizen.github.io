@@ -1,0 +1,146 @@
+/* Stryka home (buddhabytes.app). Dark only: the 3D scene lives on charcoal. Motion = transform/opacity. */
+@font-face{font-family:"Space Grotesk";src:url(../fonts/space-grotesk-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url(../fonts/space-grotesk-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url(../fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url(../fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+:root{color-scheme:dark;--bg:#050909;--ink:#EEF5F3;--muted:#9BB0AB;--teal:#00CBA9;--teal2:#5EEAD4;--amber:#F5B451;--pink:#F472B6;--line:rgba(238,245,243,.12);
+  --sans:"Space Grotesk",system-ui,sans-serif;--mono:"Plex Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(70% 60% at 75% 30%,#0c2421 0%,transparent 60%),radial-gradient(60% 50% at 10% 90%,#141238 0%,transparent 60%),var(--bg);
+  background-attachment:fixed;color:var(--ink);font-family:var(--sans);font-weight:500;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.ic{width:1.15em;height:1.15em;fill:currentColor;flex:none}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,.foot,.nav{position:relative;z-index:1}
+
+/* ---------- loader: a construction drawing of the Stryka mark ---------- */
+.ld{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:transform 1.1s cubic-bezier(.8,0,.2,1)}
+html:not(.js) .ld{display:none}
+.loaded .ld{transform:translateY(-100%)}
+.ld-draw{width:min(300px,62vw);overflow:visible}
+.ld-draw .g{fill:none;stroke:rgba(94,234,212,.35);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s cubic-bezier(.6,0,.2,1) forwards}
+.ld-draw .g2{stroke-dasharray:.012 .012;stroke-dashoffset:0;opacity:0;animation:fade .6s .5s forwards}
+.ld-draw .mk{fill:var(--teal);fill-opacity:0;stroke:var(--teal);stroke-width:18;stroke-dasharray:1;stroke-dashoffset:1;
+  animation:draw 1.4s .25s cubic-bezier(.6,0,.2,1) forwards,fillin .6s 1.3s forwards}
+.ld-draw .pt circle{fill:var(--amber);opacity:0;animation:fade .3s .4s forwards}
+.ld-meta{position:absolute;left:24px;right:24px;bottom:28px;display:flex;justify-content:space-between;color:var(--muted)}
+.ld-num{color:var(--teal2);font-variant-numeric:tabular-nums}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+@keyframes fillin{to{fill-opacity:1;stroke-opacity:0}}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;z-index:20;
+  background:linear-gradient(rgba(5,9,9,.82),rgba(5,9,9,0));backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:.14em}
+.brand img{width:34px;height:34px;border-radius:9px}
+.links{display:flex;gap:26px}
+.links a{text-decoration:none;color:var(--muted)}
+.links a:hover{color:var(--ink)}
+.play{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:999px;
+  background:var(--teal);color:#04201b;box-shadow:0 0 40px -8px rgba(0,203,169,.7);transition:transform .25s,box-shadow .25s}
+.play:hover{transform:translateY(-2px);box-shadow:0 0 60px -6px rgba(0,203,169,.9)}
+.play.sm{padding:10px 16px;font-size:.88rem}
+.play.big{padding:20px 32px;font-size:1.15rem}
+.ghost{display:inline-flex;align-items:center;padding:14px 22px;border-radius:999px;border:1px solid var(--line);text-decoration:none;font-weight:700}
+.ghost:hover{border-color:var(--teal)}
+
+/* ---------- headlines with per-letter reveal ---------- */
+h1,h2,h3{font-weight:700;text-transform:uppercase;letter-spacing:-.035em;line-height:.9;margin:0}
+h1{font-size:clamp(3rem,8.4vw,8.4rem)}
+h2{font-size:clamp(2.6rem,6.6vw,6.4rem)}
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em;margin-bottom:-.06em}
+.js .split .c{display:inline-block;transform:translateY(105%);transition:transform .9s cubic-bezier(.2,.8,.2,1) calc(var(--i)*18ms)}
+.js .split.in .c{transform:none}
+.js .rv:not(.split){opacity:0;transform:translateY(24px);transition:opacity .8s ease .15s,transform .8s cubic-bezier(.2,.8,.2,1) .15s}
+.js .rv.in:not(.split){opacity:1;transform:none}
+.kicker{color:var(--teal2);margin:0 0 22px}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;align-items:center;padding:110px 6vw 80px;position:relative}
+.hero-in{max-width:760px}
+.hero h1 .w:last-child .c{color:var(--teal2)}
+.lead{font-size:clamp(1.05rem,1.4vw,1.3rem);line-height:1.55;color:#C6D5D1;max-width:560px;margin:28px 0 0;font-weight:500}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.meta{color:var(--muted);margin-top:26px}
+.cue{position:absolute;left:6vw;bottom:28px;display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--muted)}
+.cue i{width:46px;height:1px;background:var(--teal);transform-origin:left;animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleX(0)}60%{transform:scaleX(1)}100%{transform:scaleX(1);opacity:0}}
+
+/* ---------- chapters ---------- */
+.ch{min-height:125vh;display:flex;align-items:center;padding:0 6vw;position:relative}
+.ch-in{width:min(46%,600px)}
+.ch-r .ch-in{margin-left:auto}
+.body{font-size:clamp(1rem,1.25vw,1.18rem);line-height:1.6;color:#C6D5D1;margin:26px 0 0;max-width:520px}
+.spec{display:flex;flex-direction:column;gap:6px;margin:34px 0 0;padding:18px 0 0;border-top:1px solid var(--line);max-width:520px}
+.spec dt{color:var(--muted)}
+.spec dd{margin:0;font-size:clamp(1.6rem,2.6vw,2.4rem);font-weight:700;letter-spacing:-.02em;color:var(--teal2)}
+.fb{display:none}
+
+/* ---------- specs, plans, faq, final ---------- */
+.specs,.plans,.faq{padding:140px 0}
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:56px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.sc{background:rgba(6,12,12,.88);padding:26px 22px;min-height:190px;display:flex;flex-direction:column;gap:12px;transition:background .3s}
+.sc:hover{background:rgba(0,203,169,.08)}
+.sc p{margin:0;color:var(--muted)}
+.sc b{font-size:1.65rem;letter-spacing:-.02em;line-height:1.05}
+.sc span{color:#B7C7C3;font-size:.95rem;line-height:1.45;margin-top:auto}
+.sub{color:#C6D5D1;max-width:640px;font-size:1.1rem;line-height:1.6;margin:26px 0 0}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.plan{border:1px solid var(--line);border-radius:26px;padding:32px;background:rgba(6,12,12,.85)}
+.plan.pro{border-color:rgba(0,203,169,.55);background:linear-gradient(160deg,rgba(0,203,169,.14),rgba(6,12,12,.9) 55%);box-shadow:0 30px 80px -40px rgba(0,203,169,.6)}
+.plan p{margin:0;color:var(--muted)}
+.plan h3{font-size:2.6rem;margin:10px 0 18px}
+.plan .note{margin-bottom:10px;color:var(--teal2)}
+.plan ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.plan li{display:flex;gap:12px;line-height:1.45;color:#D5E2DF}
+.plan li::before{content:"";flex:none;width:8px;height:8px;margin-top:.5em;border-radius:50%;background:var(--teal)}
+.qa{margin-top:44px;border-top:1px solid var(--line);max-width:860px}
+.qa details{border-bottom:1px solid var(--line);padding:22px 0}
+.qa summary{cursor:pointer;font-size:1.25rem;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.qa summary::after{content:"+";color:var(--teal);font-family:var(--mono)}
+.qa details[open] summary::after{content:"−"}
+.qa p{color:#C6D5D1;line-height:1.6;margin:14px 0 0;max-width:720px}
+.final{padding:120px 0 140px;text-align:center}
+.giant{font-size:clamp(4rem,15vw,15rem);line-height:.85;margin-bottom:44px}
+.final .meta{margin-top:24px}
+.foot{border-top:1px solid var(--line);padding:40px 0 48px;background:rgba(5,9,9,.9)}
+.foot .wrap{display:grid;gap:18px}
+.foot div{display:flex;align-items:center;gap:12px;font-weight:700}
+.foot img{width:28px;height:28px;border-radius:7px}
+.foot nav{display:flex;flex-wrap:wrap;gap:20px}
+.foot nav a{color:var(--muted);text-decoration:none}
+.foot nav a:hover{color:var(--ink)}
+.small{color:#7E918D;font-size:.7rem;line-height:1.7;text-transform:none;letter-spacing:.02em}
+
+/* ---------- no WebGL: the stills sit in the page ---------- */
+.no-gl .fb{display:block;width:min(300px,70vw);border-radius:30px;border:8px solid #0a0f0f;box-shadow:0 30px 80px -30px rgba(0,203,169,.5)}
+.no-gl .ch,.no-gl .hero{justify-content:space-between;gap:40px}
+.no-gl .ch-r{flex-direction:row-reverse}
+.no-gl .ch-r .ch-in{margin-left:0}
+
+/* ---------- small screens: phone up top, words below ---------- */
+@media (max-width:900px){.spec-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){
+  .links{display:none}
+  .nav{padding:12px 16px}.play.sm span{display:none}.play.sm{padding:10px 12px}
+  .hero{align-items:flex-end;padding:0 20px 90px;min-height:100svh}
+  .gl .hero{padding-top:58vh}
+  .ch{min-height:150vh;align-items:flex-end;padding:0 20px 12vh}
+  .ch-in,.ch-r .ch-in{width:100%;margin:0;padding:22px 0 0;background:linear-gradient(rgba(5,9,9,0),rgba(5,9,9,.92) 18%)}
+  .gl .ch-in{padding-top:40px}
+  .cue{left:20px}
+  .specs,.plans,.faq{padding:96px 0}
+  .plan-grid{grid-template-columns:1fr}
+  .no-gl .ch,.no-gl .hero,.no-gl .ch-r{flex-direction:column-reverse;align-items:center;justify-content:flex-end;min-height:0;padding:80px 20px}
+}
+@media (max-width:420px){.spec-grid{grid-template-columns:1fr}.sc{min-height:0}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .split .c,.js .rv:not(.split){transform:none!important;opacity:1!important;transition:none!important}
+  .ld-draw *{animation-duration:.01s!important;animation-delay:0s!important}
+  .cue i{animation:none}
+}

@@ -27,3 +27,11 @@ Second photos (the block under the screenshots on each app page), all Unsplash L
 `mauna-2.webp` lA_EKRdsMcE (balanced pebbles) · `unwind-2.webp` W7AyAs7azHc (reed diffuser and towel) · `dailygrowth-2.webp` GUKZev71amQ (sunrise over a field).
 
 | `assets/video/stryka/*.webm` | Silent screen recordings of Stryka 1.3.14 with the fictional sample person (Stryka repo `store/web-motion/record.js`), map tiles © MapTiler © OpenStreetMap contributors | Owned by Buddha Bytes; map data ODbL |
+
+## Stryka home (13 Nov 2026, index.html)
+| File | Source | Licence |
+|---|---|---|
+| `assets/js/home3d.js` (bundled) | three.js r186 from Design-Library `03-3D/Three.js - 3D in the Browser (MIT)` (`tools/home3d/vendor/three`, incl. RoundedBoxGeometry and RoomEnvironment) + own code `tools/home3d/main.js` | MIT (`tools/home3d/vendor/three/LICENSE`) |
+| `assets/fonts/space-grotesk-latin-{500,700}-normal.woff2` | Design-Library `20-Fonts/Space Grotesk (OFL)` | SIL OFL 1.1 (`space-grotesk-OFL.txt`) |
+| `assets/fonts/ibm-plex-mono-latin-{400,500}-normal.woff2` | Design-Library `20-Fonts/IBM Plex Mono (OFL)` | SIL OFL 1.1 (`ibm-plex-mono-OFL.txt`) |
+| `assets/img/stryka-mark.svg` | Stryka repo `store/brand/stryka-mark.svg` | Owned by Buddha Bytes |
