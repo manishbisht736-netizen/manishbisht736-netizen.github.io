@@ -76,6 +76,7 @@
       back.forEach(s => { const on = +s.dataset.i === k; s.classList.toggle('is-on', on); hasBack = hasBack || on; });
       dots.forEach(d => d.classList.toggle('is-on', +d.dataset.i === k));
       device.classList.toggle('has-back', hasBack);
+      window.__sxCur = k; if (window.__sxPlayStep) window.__sxPlayStep(k);
       if (!RM) {
         device.style.setProperty('--dy', (k % 2 ? 14 : -14) + 'deg');
         device.style.setProperty('--dx', (k % 3 === 1 ? -3 : 4) + 'deg');
@@ -125,6 +126,19 @@
       document.addEventListener('visibilitychange', () => { if (!document.hidden && vis && !raf) raf = requestAnimationFrame(loop); });
     }
   }
+
+  /* 6. Real app recordings: load on first view, play only while visible (and only the active story screen),
+        pause when off-screen or the tab is hidden; reduced motion keeps the poster still */
+  const vids = [...document.querySelectorAll('video.sx-vid')];
+  const load = v => { if (!v.src && v.dataset.src) { v.src = v.dataset.src; } };
+  const play = v => { if (RM) return; load(v); const pr = v.play(); if (pr) pr.catch(() => {}) };
+  const devVids = device ? [...device.querySelectorAll('video.sx-vid')] : [];
+  let devVisible = false;
+  window.__sxPlayStep = k => devVids.forEach(v => (devVisible && +v.dataset.i === k) ? play(v) : v.pause());
+  if (device) new IntersectionObserver(es => es.forEach(x => { devVisible = x.isIntersecting; window.__sxPlayStep(window.__sxCur || 0) }), { threshold: .2 }).observe(device);
+  const vio = new IntersectionObserver(es => es.forEach(x => x.isIntersecting ? play(x.target) : x.target.pause()), { threshold: .3 });
+  vids.filter(v => !devVids.includes(v)).forEach(v => { if (v.dataset.eager && !RM) load(v); vio.observe(v) });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) vids.forEach(v => v.pause()) });
 
   /* 5. Feature cards tilt in 3D under the mouse */
   if (!RM) document.querySelectorAll('.sx-tilt').forEach(c => {

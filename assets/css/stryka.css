@@ -141,3 +141,6 @@ body{background:var(--bg)}
   .sx-route,.sx-route-glow{stroke-dashoffset:0}
   .sx-kms g{opacity:1;transform:none}
 }
+/* real app recordings inside the phones */
+.sx-phone video{display:block;width:100%;height:auto;aspect-ratio:540/1202;object-fit:cover;border-radius:29px;background:#0d1312}
+video.sx-screen{background:#0d1312}

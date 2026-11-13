@@ -25,3 +25,5 @@ Unsplash photos are free for commercial use; credit is optional. Photo URL: `htt
 Second photos (the block under the screenshots on each app page), all Unsplash Licence, from the Design Library:
 `rise-2.webp` n2RKRotiNoM (smoothie bowl) · `noora-2.webp` MljwsnGwdOY (desert dunes at dusk) · `kairo-2.webp` Lks7vei-eAg (people at laptops) ·
 `mauna-2.webp` lA_EKRdsMcE (balanced pebbles) · `unwind-2.webp` W7AyAs7azHc (reed diffuser and towel) · `dailygrowth-2.webp` GUKZev71amQ (sunrise over a field).
+
+| `assets/video/stryka/*.webm` | Silent screen recordings of Stryka 1.3.14 with the fictional sample person (Stryka repo `store/web-motion/record.js`), map tiles © MapTiler © OpenStreetMap contributors | Owned by Buddha Bytes; map data ODbL |

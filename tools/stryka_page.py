@@ -9,7 +9,19 @@ def render(a, site):
     e, ic, head, nav, footer = site.e, site.ic, site.head, site.nav, site.footer
     img = f"../assets/img/apps/{a['slug']}"
 
+    # real app motion (store/web-motion/record.js in the Stryka repo): screen → silent looping clip
+    VID = {"shot-1": "pulse", "tour-ins-vitals": "insights", "shot-3": "run", "tour-run-finish": "replay", "shot-4": "coach"}
+    vdir = "../assets/video/stryka"
+
+    def media(name, alt="", cls="sx-screen", attrs=""):
+        if name in VID:
+            return (f'<video class="{cls} sx-vid" data-src="{vdir}/{VID[name]}.webm" poster="{img}/{name}.webp" muted loop playsinline '
+                    f'preload="none" aria-label="{e(alt)}"{attrs}></video>')
+        return f'<img class="{cls}" src="{img}/{name}.webp" alt="{e(alt)}" loading="lazy" decoding="async"{attrs}>'
+
     def shot(name, alt, cls="sx-phone", lazy=True):
+        if name in VID:
+            return f'<div class="{cls}">{media(name, alt, "")}</div>'
         lz = ' loading="lazy"' if lazy else ""
         return f'<div class="{cls}"><img src="{img}/{name}.webp" alt="{e(alt)}"{lz} decoding="async"></div>'
 
@@ -24,9 +36,9 @@ def render(a, site):
         steps += (f'<article class="sx-step" data-i="{k}"><div class="sx-step-media">{inline}</div>'
                   f'<div class="tour-kicker">{ic(i)} {e(t)}</div><h3>{e(h)}</h3><p>{e(d)}</p>'
                   f'<ul class="checks">{lis}</ul></article>')
-        screens += f'<img class="sx-screen" data-i="{k}" src="{img}/{imgs[0]}.webp" alt="" loading="lazy" decoding="async">'
+        screens += media(imgs[0], attrs=f' data-i="{k}"')
         if len(imgs) > 1:
-            backs += f'<img class="sx-screen" data-i="{k}" src="{img}/{imgs[1]}.webp" alt="" loading="lazy" decoding="async">'
+            backs += media(imgs[1], attrs=f' data-i="{k}"')
         dots += f'<i data-i="{k}"></i>'
 
     feats = "".join(f'<div class="feature sx-tilt reveal"><div class="fi">{ic(i)}</div><h4>{e(t)}</h4><p>{e(d)}</p></div>'
@@ -64,7 +76,7 @@ def render(a, site):
     <div class="sx-stage" aria-hidden="true">
       <div class="sx-fan">
         {shot('shot-2', '', 'sx-phone l', False)}
-        {shot('shot-1', '', 'sx-phone c', False)}
+        <div class="sx-phone c"><video class="sx-vid" data-src="{vdir}/pulse.webm" poster="{img}/shot-1.webp" muted loop playsinline preload="none" data-eager="1"></video></div>
         {shot('shot-3', '', 'sx-phone r', False)}
         <div class="sx-float f1"><b>73</b><span>Readiness · Good<small>est.</small></span></div>
         <div class="sx-float f2"><b>5h 12m</b><span>Sleep debt<small>last 14 nights</small></span></div>
@@ -72,7 +84,7 @@ def render(a, site):
       </div>
     </div>
   </div>
-  <p class="sx-note wrap">Screens show sample data. Health numbers are estimates, not medical advice.</p>
+  <p class="sx-note wrap">The phones play real recordings of the app with sample data. Health numbers are estimates, not medical advice.</p>
   <a class="sx-cue" href="#tour" aria-label="Scroll to the tour"><span></span></a>
 </header>
 
